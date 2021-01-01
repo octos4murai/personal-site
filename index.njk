@@ -2,3 +2,11 @@
 layout: base.njk
 title: Home
 ---
+
+<p>Blog Posts</p>
+
+<ul>
+    {% for post in collections.post %}
+        <li>{{ post.data.title }}</li>
+    {% endfor %}
+</ul>
