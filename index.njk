@@ -6,7 +6,7 @@ title: Home
 <p>Blog Posts</p>
 
 <ul>
-    {% for post in collections.post %}
-        <li>{{ post.data.title }}</li>
+    {% for post in collections.post | reverse %}
+        <li>{{ post.data.date | displayDateString }} - {{ post.data.title }}</li>
     {% endfor %}
 </ul>
