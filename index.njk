@@ -10,3 +10,11 @@ title: Home
         <li>{{ post.data.date | displayDateString }} - {{ post.data.title }}</li>
     {% endfor %}
 </ul>
+
+<p>Links</p>
+
+<ul>
+    {% for link in links %}
+        <li><a href="{{ link.url | url}}">{{ link.name }}</a></li>
+    {% endfor %}
+</ul>
