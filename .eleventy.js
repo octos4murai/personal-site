@@ -9,5 +9,7 @@ module.exports = eleventyConfig => {
         return DateTime.fromJSDate(dateObj, { zone: "utc" }).toFormat("yyyy.LL.dd");
     });
 
+    eleventyConfig.addPassthroughCopy("css");
+
     eleventyConfig.setDataDeepMerge(true);
 };
