@@ -2,6 +2,11 @@ body {
     font-family: "Inconsolata", monospace;
 }
 
+main {
+    max-width: 800px;
+    margin: auto;
+}
+
 h1,
 h2,
 h3,
@@ -9,8 +14,36 @@ h4,
 h5,
 h6 {
     font-family: "Merriweather", serif;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+header,
+footer {
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 #site-title {
     font-family: "Major Mono Display", monospace;
+}
+
+#site-title a {
+    color: inherit;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
 }
