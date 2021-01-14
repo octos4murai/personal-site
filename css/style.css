@@ -36,8 +36,22 @@ footer {
     color: inherit;
 }
 
+#post-title {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+#post-date {
+    margin-top: 0px;
+    padding-bottom: 10px;
+}
+
 .center-text {
     text-align: center;
+}
+
+.gray-text {
+    color: gray;
 }
 
 .no-margin {
