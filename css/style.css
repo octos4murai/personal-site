@@ -54,6 +54,11 @@ footer {
     color: gray;
 }
 
+.warning-text {
+    color: orange;
+    font-style: italic;
+}
+
 .no-margin {
     margin: 0;
 }
