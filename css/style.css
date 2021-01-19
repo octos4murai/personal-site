@@ -28,6 +28,21 @@ footer {
     padding-bottom: 20px;
 }
 
+table {
+    margin: auto;
+    margin-bottom: 30px;
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid gray;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+
 #site-title {
     font-family: "Major Mono Display", monospace;
 }
@@ -44,6 +59,13 @@ footer {
 #post-date {
     margin-top: 0px;
     padding-bottom: 10px;
+}
+
+.table-title {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
 }
 
 .center-text {
