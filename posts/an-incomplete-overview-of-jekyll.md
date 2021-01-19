@@ -32,4 +32,4 @@ int sum(int i, int s)
 
 ## Jekyll and GitHub
 
-GitHub Pages offers free website hosting geared towards project web pages and personal websites and blogs. However, the service they offer is limited to static sites -- making it a great, low-cost (can't beat free) hosting platform for Jekyll users. Static websites are easily managed using version control systems like Git. In fact in the case of GitHub Pages, the only way to push changes to your live website is to check in your code. It all fits together.
+GitHub Pages offers free website hosting geared towards project web pages and personal websites and blogs. However, the service they offer is limited to static sites --- making it a great, low-cost (can't beat free) hosting platform for Jekyll users. Static websites are easily managed using version control systems like Git. In fact in the case of GitHub Pages, the only way to push changes to your live website is to check in your code. It all fits together.
