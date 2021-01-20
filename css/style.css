@@ -88,3 +88,7 @@ td {
 .no-padding {
     padding: 0;
 }
+
+.highlight-line-active {
+    background-color: teal;
+}
