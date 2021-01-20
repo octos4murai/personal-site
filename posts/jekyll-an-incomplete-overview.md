@@ -1,6 +1,6 @@
 ---
 layout: post.njk
-title: An Incomplete Overview of Jekyll
+title: "Jekyll: An Incomplete Overview"
 date: 2016-04-28
 ---
 
