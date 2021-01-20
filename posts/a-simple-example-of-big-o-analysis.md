@@ -4,7 +4,7 @@ title: A Simple Example of Big-O Analysis
 date: 2016-05-09
 ---
 
-*What makes an algorithm better than another?* One measure is Big-O.
+What makes an algorithm better than another? One measure is Big-O.
 
 Big-O analysis is concerned with the running time of an algorithm as n gets very large. This is why Big-O analysis is also commonly referred to as worst-case analysis.
 
@@ -71,7 +71,7 @@ In the worst case, function A will need to compare each element to every other e
 
 Clearly, the running time of function B as n gets very large is much smaller (better) than function A's, and we can conclude that function B is better than function A in terms of running time.
 
-*Why take time to optimize our functions' running time? Is it worth it?* Sometimes it's not --- but other times it is extremely important. Consider the table below:
+Why take time to optimize our function's running time? Is it worth it? Sometimes it's not --- but other times it is extremely important. Consider the table below:
 
 <p class="table-title">
     Running time for a computer that performs 1 million comparisons per second
@@ -85,4 +85,4 @@ Clearly, the running time of function B as n gets very large is much smaller (be
 
 
 
-If our computer can make 1 million comparisons per second, we can expect a function with a running time of O(n), function B in our example, to take .001 seconds to process an array of 1000 integers. Function A, with its running time of O(n^2.), takes 1 second to process the same 1000 integers, much longer than function B. The difference becomes more drastic as n gets larger. For n = 100000 integers, function B will take our computer 0.1 seconds, while function A will take 2.78 hours. A function with running time O(n^3^) will take 31.71 *years* to compute the same result!
+If our computer can make 1 million comparisons per second, we can expect a function with a running time of O(n), function B in our example, to take .001 seconds to process an array of 1000 integers. Function A, with its running time of O(n^2^.), takes 1 second to process the same 1000 integers, much longer than function B. The difference becomes more drastic as n gets larger. For n = 100000 integers, function B will take our computer 0.1 seconds, while function A will take 2.78 hours. A function with running time O(n^3^) will take 31.71 *years* to compute the same result!
