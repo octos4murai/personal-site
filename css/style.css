@@ -14,7 +14,7 @@ h4,
 h5,
 h6 {
     font-family: "Merriweather", serif;
-    padding-top: 30px;
+    padding-top: 20px;
     padding-bottom: 10px;
 }
 
@@ -23,8 +23,9 @@ a {
 }
 
 header {
-    padding-top: 50px;
-    padding-bottom: 30px;
+    border-bottom: 1px solid gray;
+    padding: 15px 20px;
+    margin: -10px -10px 10px -10px;
 }
 
 footer {
@@ -44,11 +45,6 @@ td {
     border: 1px solid gray;
     padding-left: 20px;
     padding-right: 20px;
-}
-
-
-#site-title {
-    font-family: "Major Mono Display", monospace;
 }
 
 #site-title a {

@@ -4,7 +4,7 @@ title: An Incomplete Overview of Jekyll
 date: 2016-04-28
 ---
 
-## What is it?
+### What is it?
 
 Jekyll is a static website generator known for its tight integration with GitHub Pages. It converts dynamic content into web-friendly files (HTML, CSS, Javascript) and uses no server-side language or database. Static websites and static website generators like Jekyll can be limiting, but when used for a suitable task, their benefits are numerous and clear.
 
@@ -12,7 +12,7 @@ Unlike non-static website platforms which process content and templates on every
 
 This fundamental difference makes Jekyll websites, along with other static sites, inherently more performant and secure than their non-static counterparts. Since the entire website has already been pre-built and cached, the speed at which static websites are served is unmatched. And since there is no dynamic content and no database, there is not much you can hack on a Jekyll website.
 
-## Managing a Jekyll website
+### Managing a Jekyll website
 
 <p class="warning-text">
     Note: This section is outdated.
@@ -30,6 +30,6 @@ int sum(int i, int s)
 }
 ```
 
-## Jekyll and GitHub
+### Jekyll and GitHub
 
 GitHub Pages offers free website hosting geared towards project web pages and personal websites and blogs. However, the service they offer is limited to static sites --- making it a great, low-cost (can't beat free) hosting platform for Jekyll users. Static websites are easily managed using version control systems like Git. In fact in the case of GitHub Pages, the only way to push changes to your live website is to check in your code. It all fits together.

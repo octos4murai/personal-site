@@ -10,7 +10,7 @@ Big-O analysis is concerned with the running time of an algorithm as n gets very
 
 Consider the following two functions. Both take a non-empty array of integers and return the smallest integer. In both functions, n represents the number of elements in the given array.
 
-## Function A
+### Function A
 
 ```csharp
 // Function A: Compares every element of an array to all others to find the smallest one
@@ -43,7 +43,7 @@ int min(int[] integerArray)
 
 For each element in the array, function A makes a comparison between that element (let's call this the *subject*) and every other element in the array. As soon as an element smaller than the subject is found, the subject is "disqualified" from being the smallest in the array, so function A moves on to the next subject. If a subject is never disqualified and it has been compared to every other element, the subject is declared the smallest and then returned.
 
-## Function B
+### Function B
 
 ```csharp
 // Function B: Traverses the array once, storing the smallest element encountered so far
@@ -65,7 +65,7 @@ int min(int[] integerArray)
 
 Function B traverses the array only once. On the first element (the first *subject*), its value is stored under the variable *smallestSoFar*. On every subsequent element, function B compares its value to the value in smallestSoFar. If the subject is smaller, the value in smallestSoFar is replaced with the value of the subject. Otherwise, function B moves on to the next subject. Once every element in the array has had its turn to be the subject, the value in smallestSoFar is declared the smallest and returned.
 
-## Discussion
+### Discussion
 
 In the worst case, function A will need to compare each element to every other element in the array. Each element from 1st to nth requires up to n comparisons. Therefore, in the worst case, there will be n x n comparisons made. We can then say that function A is O(n^2^), read as "Big-O of n-squared". On the other hand, in the worst case, function B will only need to make one comparison for every element in the array. Therefore, there will be n comparisons made in total. We can then say that function B is O(n).
 
