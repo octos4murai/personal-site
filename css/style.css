@@ -76,6 +76,10 @@ td {
     color: gray;
 }
 
+.green-text {
+    color: green;
+}
+
 .warning-text {
     color: orange;
     font-style: italic;
