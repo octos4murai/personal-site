@@ -29,7 +29,7 @@ This writes the following two lines in the console:
 
 > bar
 
-Under the hood though, "variable and function definitions are hoisted at the top of the enclosing scope" ([Vilcu 2016](http://stackoverflow.com/a/34561247)). JavaScript runs code in two phases: the (1) creation phase and the (2) execution phase. In the creation phase, JavaScript *hoists* the definitions so that the program is actually executed like this:
+Under the hood though, "variable and function definitions are hoisted at the top of the enclosing scope" ([Vilcu](http://stackoverflow.com/a/34561247), 2016). JavaScript runs code in two phases: the (1) creation phase and the (2) execution phase. In the creation phase, JavaScript *hoists* the definitions so that the program is actually executed like this:
 
 ```javascript/9,14
 var stringToPrint;
