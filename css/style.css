@@ -80,6 +80,10 @@ td {
     color: green;
 }
 
+.red-text {
+    color: red;
+}
+
 .warning-text {
     color: orange;
     font-style: italic;
