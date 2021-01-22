@@ -83,6 +83,4 @@ Why take time to optimize our function's running time? Is it worth it? Sometimes
 | O(n^2^)| 1 sec | 1.67 mins | 2.78 hours |
 | O(n^3^)| 16.67 mins | 11.57 days | 31.71 years |
 
-
-
 If our computer can make 1 million comparisons per second, we can expect a function with a running time of O(n), function B in our example, to take .001 seconds to process an array of 1000 integers. Function A, with its running time of O(n^2^.), takes 1 second to process the same 1000 integers, much longer than function B. The difference becomes more drastic as n gets larger. For n = 100000 integers, function B will take our computer 0.1 seconds, while function A will take 2.78 hours. A function with running time O(n^3^) will take 31.71 *years* to compute the same result!
