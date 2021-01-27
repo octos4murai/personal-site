@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Synchrony and Event Handling in JavaScript | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/prism-vsc-dark-plus.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">Synchrony and Event Handling in JavaScript</h1>
+<p id="post-date" class="gray-text">2016.06.13</p>
+
+<h3>Synchronous Execution and the Execution Stack</h3>
+<p>The JavaScript engine is synchronous and single-threaded. Code is executed line by line, in the order it is written. For instance, it is simple to deduce the order in which the following function is executed:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">var</span> stringToPrint <span class="token operator">=</span> <span class="token string">'bar'</span><span class="token punctuation">;</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stringToPrint<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">function</span> <span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">var</span> stringToPrint <span class="token operator">=</span> <span class="token string">'foo'</span><span class="token punctuation">;</span><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stringToPrint<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>This writes the following two lines in the console:</p>
+<blockquote>
+<p>foo</p>
+</blockquote>
+<blockquote>
+<p>bar</p>
+</blockquote>
+<p>Under the hood though, “variable and function definitions are hoisted at the top of the enclosing scope” (<a href="http://stackoverflow.com/a/34561247">Vilcu</a>, 2016). JavaScript runs code in two phases: the (1) creation phase and the (2) execution phase. In the creation phase, JavaScript <em>hoists</em> the definitions so that the program is actually executed like this:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token keyword">var</span> stringToPrint<span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token keyword">function</span> <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    <span class="token keyword">var</span> stringToPrint<span class="token punctuation">;</span></span><br><span class="highlight-line">    stringToPrint <span class="token operator">=</span> <span class="token string">'bar'</span><span class="token punctuation">;</span></span><br><span class="highlight-line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stringToPrint<span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token keyword">function</span> <span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><mark class="highlight-line highlight-line-active">    <span class="token function">a</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></mark><br><span class="highlight-line"><span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">stringToPrint <span class="token operator">=</span> <span class="token string">'foo'</span><span class="token punctuation">;</span></span><br><span class="highlight-line">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>stringToPrint<span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><mark class="highlight-line highlight-line-active"><span class="token function">b</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></mark></code></pre>
+<p>At the start of each scope, the compiler allocates memory for all variables used within that scope. Each of these newly-declared variables are given the reserved value undefined until they are assigned a different value later in the execution. Note that undefined is not equivalent to null; undefined is an actual value that occupies memory.</p>
+<p>Moreover, JavaScript maintains something called the execution stack which always begins with the global execution context. When the call to function b is made, function b’s execution context is pushed onto the stack — on top of the global execution context. At that point, no code in the global execution context is run. Similarly, when function b makes a call to function a, function a’s execution context is pushed onto the execution stack, and no code in function b or the global execution context gets executed. Once code in the top-most execution context finishes, that execution context is popped off the stack, and the one that was immediately below it is resumed.</p>
+<h3>Event Handlers and the Event Queue</h3>
+<p>But what about event handlers, isn’t <em>that</em> an example of asynchrony in JavaScript? Not really. Instead, event handlers in JavaScript provide, what is in my opinion, the illusion of asynchrony.</p>
+<p>Similar to the execution stack, JavaScript maintains an <em>event queue</em>. Like its name suggests, the event queue keeps track not of execution contexts but events, such as mouse-clicks or key-strokes. Unlike the environment stack, the event queue is a <a href="https://en.wikipedia.org/wiki/FIFO_(computing_and_electronics)">FIFO</a>.</p>
+<p>Since JavaScript has synchronous execution, it is unable to address commands in the event queue at the same time as it is running code in the execution stack. Instead, items in the event queue are only ever addressed when the execution stack is empty. It is possible to have a huge delay in the execution of event handlers, if there is long-running code in the execution stack. To illustrate, have a look at the code below:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token keyword">function</span> <span class="token function">eventHandler</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'The event handler was run'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">document<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'click'</span><span class="token punctuation">,</span> eventHandler<span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token keyword">function</span> <span class="token function">wait</span><span class="token punctuation">(</span><span class="token parameter">secondsToWait</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    <span class="token keyword">var</span> millisecondsToWait <span class="token operator">=</span> secondsToWait <span class="token operator">*</span> <span class="token number">1000</span><span class="token punctuation">;</span></span><br><span class="highlight-line">    <span class="token keyword">var</span> endTime <span class="token operator">=</span> millisecondsToWait <span class="token operator">+</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getTime</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">    <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&lt;</span> endTime<span class="token punctuation">)</span><span class="token punctuation">{</span></span><br><span class="highlight-line">        <span class="token comment">// Do nothing</span></span><br><span class="highlight-line">    <span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token string">'Long-running function completed'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><mark class="highlight-line highlight-line-active"><span class="token function">wait</span><span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">;</span></mark></code></pre>
+<p>After about ten seconds, the console will look similar to this:</p>
+<blockquote>
+<p>Long-running function completed</p>
+</blockquote>
+<blockquote>
+<p>The event handler was run</p>
+</blockquote>
+<p>When the call to the wait function was made, a long-running function was triggered. Any click events triggered were placed in the event queue – but these events were only handled once the execution stack was empty. As a result, the string “The event handler was run” is always printed <em>after</em> “Long-running function completed”, never before.</p>
+<h3>TL/DR</h3>
+<p>The JavaScript engine is synchronous, and event handlers are only executed when the execution stack is empty. Long-running queries are a particularly nasty hazard in JavaScript.</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding">MIT License</p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

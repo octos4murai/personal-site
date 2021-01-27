@@ -1,0 +1,102 @@
+body {
+    font-family: "Inconsolata", monospace;
+}
+
+main {
+    max-width: 800px;
+    margin: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Merriweather", serif;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+header {
+    border-bottom: 1px solid gray;
+    padding: 15px 20px;
+    margin: -10px -10px 10px -10px;
+}
+
+footer {
+    padding-top: 30px;
+    padding-bottom: 50px;
+}
+
+table {
+    margin: auto;
+    margin-bottom: 30px;
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid gray;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#site-title a {
+    color: inherit;
+}
+
+#post-title {
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
+#post-date {
+    margin-top: 0px;
+    padding-bottom: 10px;
+}
+
+.table-title {
+    padding-top: 20px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.gray-text {
+    color: gray;
+}
+
+.green-text {
+    color: green;
+}
+
+.red-text {
+    color: red;
+}
+
+.warning-text {
+    color: orange;
+    font-style: italic;
+}
+
+.no-margin {
+    margin: 0;
+}
+
+.no-padding {
+    padding: 0;
+}
+
+.highlight-line-active {
+    background-color: teal;
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The JavaScript Scope Chain | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/prism-vsc-dark-plus.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">The JavaScript Scope Chain</h1>
+<p id="post-date" class="gray-text">2017.10.31</p>
+
+<p>JavaScript is notorious for having mechanisms that seem to work in unintuitive and unexpected ways. In my opinion, this is often an effect of JavaScript syntax being so close to popular compiled languages like Java or C# while — under the hood — working very differently.</p>
+<h3>Some code</h3>
+<p>To illustrate one example, here’s some code:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token keyword">function</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>someNumber<span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span></span><br><span class="highlight-line">    <span class="token keyword">var</span> someNumber <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></span><br><span class="highlight-line">    <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><mark class="highlight-line highlight-line-active"><span class="token keyword">var</span> someNumber <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span></mark><br><span class="highlight-line"><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// prints 0</span></span></code></pre>
+<p>In the highlighted line, the variable <em>someNumber</em> is declared and given a value of 0. Then the function <em>foo</em> is invoked, which declares a new variable of the same name and gives it a value of 1. Finally, <em>foo</em> invokes the function <em>bar</em> which prints out the string representation of the value in <em>someNumber</em>.</p>
+<p>Some may expect JavaScript to throw a reference error because <em>someNumber</em> was never declared in <em>bar()</em>. Others may think that the string “1” will be printed out. Instead, the value printed to the console is “0”.</p>
+<h3>Peeking under the hood</h3>
+<p>Upon running the code, the JavaScript engine does something before the actual execution: it goes through what’s called a <em>creation phase</em>. In this phase, the engine parses the code character-by-character looking for any variables and functions that may have been declared. It allocates the memory required for each of these variables and functions<sup>1</sup> — and in the case of variables, it assigns them the value <em>undefined</em> <sup>2</sup>.</p>
+<p>Something else that the JavaScript engine does is create the <em>global execution context</em>. As the engine goes through the code, it creates new execution contexts as needed and adds them to the <em>execution stack</em>. Taking the code above as an example, invoking the function <em>foo()</em> triggers the engine to add a new execution context in the <em>execution stack</em>. This newly-created execution context contains, among other things, a reference to its outer environment — the <em>global execution context</em>.</p>
+<p>If we try to access a variable that has not been declared in the current execution stack, JavaScript checks in the outer environment recursively until it either finds the variable or finishes searching the outermost environment (i.e. the <em>global execution context</em>). Only after failing to find the variable in the outermost environment does JavaScript throw a reference error.</p>
+<p>This chain formed by nested execution environments is what is called the <em>scope chain</em>.</p>
+<h3>Defining <em>outer environment</em></h3>
+<p>Since the concept of outer environment is central to the scope chain, it is important to know how the outer environment is determined by JavaScript.</p>
+<p>A fair guess might be that JavaScript takes the lexical environment of the calling function and sets that as the new execution context’s outer environment. <em>But this is wrong!</em></p>
+<p>Instead, we should think about when each function and variable is created. Memory is allocated for each declared function and variable during the <em>creation phase</em> before any of the code is ever executed. Taking the same code snippet above: As soon as we declare the function <em>bar()</em>, it is created in memory. At this point, <em>foo()</em> has not yet been created. Therefore, it is impossible that the <em>bar()</em> execution context’s outer environment is <em>foo()</em>'s lexical environment.</p>
+<p>When <em>bar()</em> is created, only the global execution context exists. So <em>bar()</em>'s outer environment is the gloabl execution context.</p>
+<p>Although I prefer to think about this in the way I just described, a helpful alternative is to look at where the function or variable in question physically sits in the code. By this, I mean: Is it declared within a function or outside any function?</p>
+<p>If <em>bar()</em> was declared within <em>foo()</em>, its outer environment would’ve been <em>foo()</em>. But since it is declared outside any function, its outer environment is the global execution context.</p>
+<h3>Slightly altered code</h3>
+<p>For example, here is an alternate version of our original code:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">var</span> someNumber <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span><br>    <span class="token keyword">function</span> <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>        console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>someNumber<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br>    <span class="token function">bar</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br><span class="token keyword">var</span> someNumber <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span><br><span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// prints 1</span></code></pre>
+<p>It is identical to the previous except <em>bar()</em> is declared within <em>foo()</em>, rather than in the global scope. It makes sense then that calling <em>bar()</em> logs the value ‘1’ — the value of <em>someNumber</em> declared in its outer environment <em>foo()</em>.</p>
+<h3>Notes</h3>
+<ul>
+<li><sup>1</sup> This process is called <em>hoisting</em>.</li>
+<li><sup>2</sup> <em>Undefined</em> should not to be confused with ‘not defined’, which indicates at runtime that memory has not been allocated for the function or variable).</li>
+</ul>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding">MIT License</p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

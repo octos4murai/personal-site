@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Multiple Inheritance in Python | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/prism-vsc-dark-plus.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">Multiple Inheritance in Python</h1>
+<p id="post-date" class="gray-text">2016.12.21</p>
+
+<p>Multiple inheritance is supported but usually not recommended in Python. In my own work, I certainly avoid it if I can. Nevertheless, I think it is important for Python developers to understand what multiple inheritance is and how it is implemented.</p>
+<h3>A Simple Example of Inheritance</h3>
+<p>Consider the following snippet of code:</p>
+<pre class="language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span><br>    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span><br>        self<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">41</span><br><br>    <span class="token keyword">def</span> <span class="token function">get_age</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span><br>        <span class="token keyword">return</span> self<span class="token punctuation">.</span>age<br><br><span class="token keyword">class</span> <span class="token class-name">Tourist</span><span class="token punctuation">(</span>Person<span class="token punctuation">)</span><span class="token punctuation">:</span><br>    <span class="token keyword">pass</span><br><br>t <span class="token operator">=</span> Tourist<span class="token punctuation">(</span><span class="token punctuation">)</span><br><span class="token keyword">print</span> t<span class="token punctuation">.</span>get_age<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>The Tourist class inherits from the Person class, as indicated by the syntax:</p>
+<blockquote>
+<p>class &lt;<em>class name</em>&gt;(&lt;<em>classes to inherit from</em>&gt;)</p>
+</blockquote>
+<p>Inheritance allows the call to the method get_age() on variable t (which is of type Tourist) even if the class Tourist does not implement an __init__() method or a get_age() method. Upon instantiation in line 11, the interpreter finds that there is no __init__() method in Tourist and looks at any inherited class definitions. In this instance, it finds an implementation in the inherited class Person. The age attribute in the Tourist object in t is then assigned the value 41.</p>
+<p>After the interpreter goes through a similar process to address the call to t.get_age(), the program prints out 41.</p>
+<h3>An Example of Multiple Inheritance</h3>
+<p>Now consider the following:</p>
+<pre class="language-python"><code class="language-python"><span class="token keyword">class</span> <span class="token class-name">Person</span><span class="token punctuation">(</span><span class="token builtin">object</span><span class="token punctuation">)</span><span class="token punctuation">:</span><br>    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span><br>        self<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">41</span><br><br>    <span class="token keyword">def</span> <span class="token function">get_age</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span><br>        <span class="token keyword">return</span> self<span class="token punctuation">.</span>age<br><br><span class="token keyword">class</span> <span class="token class-name">Japanese</span><span class="token punctuation">(</span>Person<span class="token punctuation">)</span><span class="token punctuation">:</span><br>    <span class="token keyword">pass</span><br><br><span class="token keyword">class</span> <span class="token class-name">Korean</span><span class="token punctuation">(</span>Person<span class="token punctuation">)</span><span class="token punctuation">:</span><br>    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span><br>        self<span class="token punctuation">.</span>age <span class="token operator">=</span> <span class="token number">42</span><br><br><span class="token keyword">class</span> <span class="token class-name">Tourist</span><span class="token punctuation">(</span>Japanese<span class="token punctuation">,</span> Korean<span class="token punctuation">)</span><span class="token punctuation">:</span><br>    <span class="token keyword">pass</span><br><br>t <span class="token operator">=</span> Tourist<span class="token punctuation">(</span><span class="token punctuation">)</span><br><span class="token keyword">print</span> t<span class="token punctuation">.</span>get_age<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
+<p>The first thing to note is that the class Tourist now inherits from two other classes: Japanese and Korean. Both Japanese and Korean inherit from Person. However, Korean overrides Person’s implementation of __init__(). Suddenly, it is not so simple to reason about which value will be printed. Will it be the Japanese/Person age or Korean age?</p>
+<h3>Arriving at the Answer</h3>
+<p>To arrive at the answer, we need to look at something called the Method Resolution Order (MRO). <a href="https://en.wikipedia.org/wiki/C3_linearization">Wikipedia</a> defines it as “an algorithm used primarily to obtain the order in which methods should be inherited (the “linearization”) in the presence of multiple inheritance.”</p>
+<p>By appending <em>print Tourist.mro()</em> at the end of our code, we can see the MRO used by the interpreter for class Tourist:</p>
+<blockquote>
+<p>[&lt;class ‘<strong>main</strong>.Tourist’&gt;, &lt;class ‘<strong>main</strong>.Japanese’&gt;, &lt;class ‘<strong>main</strong>.Korean’&gt;, &lt;class ‘<strong>main</strong>.Person’&gt;, &lt;type ‘object’&gt;]</p>
+</blockquote>
+<p>When the Python interpreter looks inside the Tourist object, it follows the following order:</p>
+<blockquote>
+<p>Tourist -&gt; Japanese -&gt; Korean -&gt; Person -&gt; object</p>
+</blockquote>
+<p>Note that the interpreter does not traverse deeper into Person until it has looked at both Japanese and Korean. This is a popular algorithm called <a href="https://en.wikipedia.org/wiki/Breadth-first_search">breadth-first search</a>.</p>
+<p>The interpreter finds an implementation of __init__() as soon as it reaches Korean, and so the value 42 is printed. Had the interpreter instead performed a <a href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a>, then it would have arrived at the value 41. In fact: this was actually the case up to Python 2.1.</p>
+<h3>TL/DR</h3>
+<p>Multiple inheritance in Python: “Learn it in depth, and then avoid using it as much as possible” (<a href="https://www.quora.com/Multiple-inheritance-in-C%2B%2B-Should-we-embrace-it-or-avoid-it/answer/Fernando-Vazquez-2?srid=uucQM">Vasquez</a>). I would avoid it in other languages too.</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding">MIT License</p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>
