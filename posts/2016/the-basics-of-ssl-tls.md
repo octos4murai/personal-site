@@ -58,6 +58,8 @@ Now, the client is certain that the server is who it says it is (and vice-versa)
 
 It is only after this handshake that the actual transaction can begin.
 
+{% include section-divider.njk %}
+
 ### References
 
 - [Lux Scientiae](https://luxsci.com/blog/ssl-versus-tls-whats-the-difference.html)

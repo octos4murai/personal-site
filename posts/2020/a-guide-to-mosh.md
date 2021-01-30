@@ -74,6 +74,8 @@ This is possible because, as discussed earlier, Mosh uses SSH to initialize a co
 
 Mosh has real and distinctive benefits over SSH, especially when working over an unreliable network connection. Set up and daily use of Mosh alongside SSH is easy so there is little reason for any remote tech worker not to add it to their toolbelt.
 
+{% include section-divider.njk %}
+
 ### References
 
 - [Mosh.org](https://mosh.org)

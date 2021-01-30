@@ -22,6 +22,8 @@ Given two interesting technologies that are likely to become part of my future t
 
 Having a system (even a rough one like above) of assigning value to potential areas of study can help in deciding which areas of study to pursue. And carefully selecting where to invest one’s study time can have a large impact on a developer’s productivity and enjoyment.
 
+{% include section-divider.njk %}
+
 ### Notes
 
 - *Learning What to Learn is a reference to [Learning How To Learn](https://www.coursera.org/learn/learning-how-to-learn/), a remarkable online course by Dr. Barbara Oakley and Dr. Terrence Sejnowski.*

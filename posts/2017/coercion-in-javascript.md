@@ -94,6 +94,8 @@ Method C is the most elegant solution and also demonstrates knowledge of coercio
 
 Understanding coercion (along with *equality* and *strict equality* in Javascript) allows developers to avoid common pitfalls and write cleaner, more elegant code.
 
+{% include section-divider.njk %}
+
 ### Notes
 
 - ^1^ To be clear, the word *method* is not used in the object-oriented sense here.

@@ -37,6 +37,8 @@ While Simpson's Paradox has been studied for decades and has essentially been so
 
 Just another reminder to maintain a healthy level of skepticism and unbelief, especially when faced with extraordinary claims.
 
+{% include section-divider.njk %}
+
 ### References
 
 - [Sex Bias in Graduate Admissions: Data from Berkeley](http://homepage.stat.uiowa.edu/~mbognar/1030/Bickel-Berkeley.pdf)

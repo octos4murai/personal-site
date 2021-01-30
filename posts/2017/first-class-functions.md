@@ -106,6 +106,8 @@ With a map function available (i.e. *simpleMap()*), we are able to abstract away
 
 The concept of first-class functions constitutes a paradigm shift for programmers who have only ever worked with non-functional languages. Learning both and pondering their differences can be a worthwhile and enjoyable experience.
 
+{% include section-divider.njk %}
+
 ### Notes
 
 - ^1^ JavaScript was named after the very popular Java to attract more developers to learn and use the language. For the same reason, JavaScript syntax resembles Java syntax -- making it more palatable to Java developers. Under the hood however, JavaScript has more in common with languages like Scheme and Haskell (e.g. JavaScript treats functions as first-class entities, while Java does not). 

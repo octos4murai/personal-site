@@ -71,6 +71,8 @@ foo(); // prints 1
 
 It is identical to the previous except *bar()* is declared within *foo()*, rather than in the global scope. It makes sense then that calling *bar()* logs the value '1' --- the value of *someNumber* declared in its outer environment *foo()*.
 
+{% include section-divider.njk %}
+
 ### Notes
 
 - ^1^ This process is called *hoisting*.
