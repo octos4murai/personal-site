@@ -14,6 +14,7 @@ module.exports = eleventyConfig => {
     });
 
     eleventyConfig.addPassthroughCopy("css");
+    eleventyConfig.addPassthroughCopy("CNAME");
 
     eleventyConfig.addPlugin(syntaxHighlight);
 
