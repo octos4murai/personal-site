@@ -8,7 +8,7 @@ title: Home
 <ul>
     {% for post in collections.post | reverse %}
         <li>
-            <span class="gray-text" datetime="{{ post.data.date | htmlDateString }}">{{ post.data.date | displayDateString }}</span> -
+            <span class="large-screen-only"><span class="gray-text" datetime="{{ post.data.date | htmlDateString }}">{{ post.data.date | displayDateString }}</span> -</span>
             <a href="{{ post.url | url }}">{{ post.data.title }}</a>
         </li>
     {% endfor %}
