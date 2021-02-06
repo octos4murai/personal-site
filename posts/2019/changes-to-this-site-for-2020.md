@@ -1,6 +1,6 @@
 ---
 layout: post.njk
-title: A Few Changes to this Site
+title: Changes to this Site for 2020
 date: 2019-12-02
 ---
 
