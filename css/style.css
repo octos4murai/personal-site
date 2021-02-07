@@ -23,9 +23,9 @@ a {
 }
 
 header {
-    border-bottom: 1px solid gray;
     padding: 15px 20px;
     margin: -10px -10px 10px -10px;
+    background-color: tomato;
 }
 
 footer {
@@ -46,9 +46,9 @@ td {
     padding-left: 20px;
     padding-right: 20px;
 }
-
+#site-title,
 #site-title a {
-    color: inherit;
+    color: white;
 }
 
 #post-title {
