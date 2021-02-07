@@ -15,6 +15,7 @@ module.exports = eleventyConfig => {
 
     eleventyConfig.addPassthroughCopy("css");
     eleventyConfig.addPassthroughCopy("CNAME");
+    eleventyConfig.addPassthroughCopy("favicon");
 
     eleventyConfig.addPlugin(syntaxHighlight);
 
