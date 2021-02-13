@@ -8,7 +8,7 @@ Among the three big operating systems, Windows still carries the reputation of b
 
 1. Making .NET Core open-source and cross-platform
 2. Joining the Linux Foundation
-3. Acquiring Github and Xamarin
+3. Acquiring GitHub and Xamarin
 
 These developments over the past few years have made me very interested in learning more about the tools that comprise the *new* Microsoft (.NET Core, Azure, C#, PowerShell, etc.) and so a few weeks ago, I finally exchanged my Mac for a Windows PC.
 
