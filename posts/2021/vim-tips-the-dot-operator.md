@@ -25,7 +25,7 @@ Suppose we have the following list of ids and we want to ensure each line ends i
 89007851
 ```
 
-Outside of Vim, the user may need to make use of a feature like multi-row edit to get something like this done. More often though, inexperienced users will manually traverse each line to make the change. In Vim, we need only do the work on the first line. While the cursor is anywhere on the first line, typing `A,\<ESC\>` will do the job. Then move down to each subsequent line (anywhere within the line is fine) and invoke the dot operator to repeat the change.
+Outside of Vim, the user may need to make use of a feature like multi-row edit to get something like this done. More often though, inexperienced users will manually traverse each line to make the change. In Vim, we need only do the work on the first line. While the cursor is anywhere on the first line, typing `A,<ESC>` will do the job. Then move down to each subsequent line (anywhere within the line is fine) and invoke the dot operator to repeat the change.
 
 Using the dot operator takes a little bit of planning. Specifically, we need to make sure the action we make is *repeatable*. In the previous example, notice that we used `A` instead of `i` or `a`. Doing so ensures that wherever we land on a line, the dot operator will always append the comma on the very end of that line.
 
