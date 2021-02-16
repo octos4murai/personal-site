@@ -1,7 +1,7 @@
 ---
 layout: post.njk
 title: "Vim Tips: The Dot Operator"
-date: 2021-02-13
+date: 2021-01-13
 ---
 
 Conventional editors have conditioned us to think about the act of editing text in certain ways:
