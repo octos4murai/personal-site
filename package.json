@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/octos4murai/personal-site#readme",
   "devDependencies": {
-    "@11ty/eleventy": "^0.11.1",
+    "@11ty/eleventy": "^0.12.1",
     "@11ty/eleventy-plugin-syntaxhighlight": "^3.0.6",
     "luxon": "^1.25.0",
     "markdown-it-sup": "^1.0.0"

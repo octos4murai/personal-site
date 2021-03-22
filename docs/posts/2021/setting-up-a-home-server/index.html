@@ -41,7 +41,7 @@
 </ol>
 <h3>Creating the SSH Server</h3>
 <p>The first step is simple to achieve. On my machine using <a href="https://pop.system76.com/">Pop!_OS</a>, I ran:</p>
-<pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> openssh-server</code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> openssh-server</span></code></pre>
 <p>Since Pop!_OS is based on Ubuntu/Debian, the same command will work for Ubuntu, Debian, and other distros in the same family.</p>
 <p>Even before any configuration, installing <code>openssh-server</code> is enough to support incoming <code>ssh</code> connections within the local network. So at this point, I am able to connect locally to my NUC from my MacBook through the NUC’s local IP address.</p>
 <h3>Working Around a Dynamic IP Address</h3>
@@ -67,7 +67,7 @@
 <li>Configured my router to block all incoming connections except for specific ports (and specific types of connections),</li>
 <li>Set up <code>ufw</code> on my home server to only accept incoming traffic that is <code>ssh</code>,</li>
 </ul>
-<pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> ufw allow <span class="token function">ssh</span><br><span class="token function">sudo</span> ufw <span class="token builtin class-name">enable</span></code></pre>
+<pre class="language-bash"><code class="language-bash"><span class="highlight-line"><span class="token function">sudo</span> ufw allow <span class="token function">ssh</span></span><br><span class="highlight-line"><span class="token function">sudo</span> ufw <span class="token builtin class-name">enable</span></span></code></pre>
 <ul>
 <li>Since I will be exclusively using my MacBook to <code>ssh</code> to my NUC, I set up the two machines to authenticate using <code>ssh</code> tokens. This also means I can disallow password authentication (by editing <code>/etc/ssh/sshd_config</code>). To get <code>ssh</code> access to my home server, you need to be making the connection using my MacBook.</li>
 </ul>
