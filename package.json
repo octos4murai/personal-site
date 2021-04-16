@@ -1,7 +1,7 @@
 {
   "name": "personal-site",
   "version": "1.0.0",
-  "description": "",
+  "description": "A personal site about software development",
   "main": ".eleventy.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,8 +10,8 @@
     "type": "git",
     "url": "git+https://github.com/octos4murai/personal-site.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Al Idian",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/octos4murai/personal-site/issues"
   },

@@ -23,10 +23,4 @@ module.exports = eleventyConfig => {
 
     eleventyConfig.setLibrary("md", markdownIt({ html: true, typographer: true })
         .use(markdownItSup));
-
-    return {
-        dir: {
-            output: "docs"
-        }
-    };
 };
