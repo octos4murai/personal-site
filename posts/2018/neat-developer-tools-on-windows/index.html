@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Neat Developer Tools on Windows | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">Neat Developer Tools on Windows</h1>
+<p id="post-date" class="gray-text">2018.08.20</p>
+
+<p>Among the three big operating systems, Windows still carries the reputation of being the least developer-friendly. However, this perception has been changing rapidly as Microsoft has made moves to win the recognition of developers. These moves include:</p>
+<ol>
+<li>Making .NET Core open-source and cross-platform</li>
+<li>Joining the Linux Foundation</li>
+<li>Acquiring GitHub and Xamarin</li>
+</ol>
+<p>These developments over the past few years have made me very interested in learning more about the tools that comprise the <em>new</em> Microsoft (.NET Core, Azure, C#, PowerShell, etc.) and so a few weeks ago, I finally exchanged my Mac for a Windows PC.</p>
+<p>In this post, I will talk about a few Windows tools that I have found interesting in the past few weeks, each of which are new to me in some capacity.</p>
+<h3>Chocolatey</h3>
+<p>When installing a new program, many Windows users have been trained to fire up a browser and manually download and run the application’s installer. More recently with the arrival of Windows 10, Microsoft is attempting to funnel users into the Microsoft Store, a GUI-based application where users can search and install a range of <em>approved</em> apps.</p>
+<p>An alternate approach — popular with developers and Linux users – is to use a CLI-based package manager. Benefits of using a package manager include (1) quick and easy detection and installation of dependencies, (2) quick and easy detection and updating of outdated apps, and (3) easy automation — which is great for IT professionals. <a href="https://chocolatey.org/">Chocolatey</a> is one such package manager.</p>
+<p>Chocolatey takes the package management model central to Linux and tries hard to make it work in the Windows world. And in my experience, it succeeds! Like any great package manager, it removes the tiresome work of downloading and clicking through an installer — while preserving a degree of control over the different installation options.</p>
+<p>Here is a typical example of how one would use Chocolatey:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># List all outdated installed packages</span><br><span class="token comment"># Note: 'choco' calls Chocolatey and 'outdated' is the command to perform</span><br>choco outdated<br><br><span class="token comment"># Upgrade all currently installed packages</span><br><span class="token comment"># Note: 'cup' is shorthand for 'choco upgrade'</span><br>cup all<br><br><span class="token comment"># Search for an app to install (e.g. Nodejs)</span><br><span class="token comment"># Note: 'clist' is shorthand for 'choco list'</span><br>clist node<br><br><span class="token comment"># View the documentation on one of the results</span><br><span class="token comment"># Note: 'choco info &lt;pkgname>' is shorthand for 'clist &lt;pkgname> --exact --verbose'</span><br>choco info nodejs<span class="token operator">-</span>lts<br><br><span class="token comment"># Install Nodejs (LTS version)</span><br><span class="token comment"># Note: 'cinst' is shorthand for 'choco install'</span><br>cinst nodejs<span class="token operator">-</span>lts</code></pre>
+<p>My biggest complaint with Chocolatey so far is that it seems its servers have been down a couple times already since I had purchased a new PC a couple weeks ago. As of the time of writing, they do not even have a status page that allows you to quickly check whether the problem is you or them.</p>
+<p>When your work depends on a package manager’s reliability, you expect near 100% uptime for such a service. Nevertheless, I am happy with it so far and plan to continue using it.</p>
+<h3>Microsoft Edge</h3>
+<p>The new Windows flagship browser <a href="https://www.microsoft.com/en-us/windows/microsoft-edge">Edge</a> did not launch without some stiff challenges. The biggest of these challenges is living down the terrible reputation that Internet Explorer had built in the developer community. To this day, legacy IE is making life hard for web developers around the world, and it is no wonder that the Edge team made the decision to be highly aggressive in pushing IE users — and those of the major third-party browsers — towards Edge.</p>
+<p>To be clear, Microsoft Edge is a fully-modern browser and can stand alongside Chrome, Firefox, Safari, and Opera. Many power users though — myself notwithstanding — have already grown comfortable with one of the other more well-established options. Still, after a few minutes with Microsoft Edge, I grew to like it enough not to uninstall it from my machine.</p>
+<p>Edge will not be toppling Firefox as my default browser in the near future. I am however very impressed by one feature in particular: the ability to automatically clear the cache, history, etc — effectively reverting itself back to a fresh state — every time the browser is closed. This nifty feature makes Edge a great <em>throw-away</em> browser (not sarcastic) — one that is used when you want all information purged after every session. This is great for testing and debugging (and for letting other people use your computer for a bit).</p>
+<h3>Windows PowerShell</h3>
+<p><a href="https://docs.microsoft.com/en-us/powershell/">PowerShell</a> is both a shell and a scripting language for the modern Windows system. Just as Edge is successor to IE, PowerShell is successor to Windows CMD. While IE and CMD are some of the most-hated Windows tools of all time, PowerShell — like Edge — is actually fantastic!</p>
+<p>Something that throws people off about PowerShell is just how different it is from the standard Linux shell Bash. While Bash manipulates everything as strings, PowerShell commands generate and manipulate objects with properties and methods. This is a powerful deviation from the Bash model and highly affects how PowerShell is meant to be used. To illustrate, here are a few simple examples:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># List all items in the current working directory</span><br><span class="token comment"># Note: The Cmdlet (pronounced command-let) Get-ChildItem is itself an object with members</span><br><span class="token function">Get-ChildItem</span><br><br><span class="token comment"># Get the number of items in the current working directory</span><br><span class="token comment"># Note: Because Get-ChildItem is an object, we can access its methods and properties with ease</span><br><span class="token function">Get-ChildItem</span><span class="token punctuation">.</span>Length<br><br><span class="token comment"># List all the methods and properties of Get-ChildItem</span><br><span class="token comment"># Note: It is also easy to get all the members available for us to access</span><br><span class="token function">Get-ChildItem</span> <span class="token punctuation">|</span> <span class="token function">Get-Member</span><br><br><span class="token comment"># List all items in order of ascending creation time</span><br><span class="token comment"># Note: A practical application is sorting, where we make use of another Cmdlet Sort-Object</span><br><span class="token function">Get-ChildItem</span> <span class="token punctuation">|</span> <span class="token function">Sort-Object</span> CreationTime</code></pre>
+<p>I know what many Linux guys are thinking: “This is <em>way</em> too much to type for that functionality.” But a couple of great features that PowerShell provides are (1) command auto-complete and (2) command aliases.</p>
+<p>When writing within the PowerShell application or the more robust PowerShell ISE, users are provided excellent command auto-complete which tries to intelligently guess the user’s intent upon pressing the tab key.</p>
+<p>As far as command aliases go, the PowerShell team has wisely implemented many Linux aliases, along with their own. For example, some common aliases for Get-ChildItem are:</p>
+<ul>
+<li><em>gci</em> - An initialism for Get-ChildItem</li>
+<li><em>ls</em> - From its Linux counterpart</li>
+<li><em>dir</em> - From its Windows CMD counterpart</li>
+</ul>
+<p>Personally, I believe in PowerShell’s design philosophy — and I’m having a lot of fun using it so far.</p>
+<h3>Windows Subsystem for Linux</h3>
+<p><a href="https://docs.microsoft.com/en-us/windows/wsl/about">Windows Subsystem for Linux</a> (WSL) is simultaneously the most interesting and most peculiar thing on this list. Quoting the official documentation, “The Windows Subsystem for Linux lets developers run GNU/Linux environment — including most command-line tools, utilities, and applications — directly on Windows, unmodified, without the overhead of a virtual machine.”</p>
+<p>As mentioned above, WSL is <em>not</em> a virtual machine. But it’s also much more than a layer that simply translates Linux commands to Windows. Instead, WSL runs an actual instance (in fact, many could be run simultaneously) of a selected Linux distro, albeit made to interact with the Windows kernel. With WSL, users can quickly switch between concurrent instances of Windows 10 and one or many instances of their Linux distros of choice.</p>
+<p>Officially, the distros supported include Ubuntu, Kali Linux, and OpenSUSE — and from what I have gathered, it should not be too hard to run other distros as well.</p>
+<p>Currently, WSL does not officially support GUI apps so users are limited to the command line. Still, I think WSL fills an interesting niche between using PowerShell (with aliases that mirror common Bash commands) and using a full-blown vm.</p>
+<p>In my experience tinkering with WSL, I found it to be very amusing and potentially useful for particular developer and devops workflows. Although I have decided not to make it part of my permanent toolbelt for now, I intend to closely follow any developments on this project. It really does speak volumes for Windows, a traditionally fully-proprietary platform, to now be so chummy with Linux, poster child of the open source movement.</p>
+<p>Relevant hilarity: <a href="https://www.zdnet.com/article/ballmer-i-may-have-called-linux-a-cancer-but-now-i-love-it/">“Steve Ballmer: I may have called Linux a cancer but now I love it”</a></p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

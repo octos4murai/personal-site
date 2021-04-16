@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Guide to Mosh | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">A Guide to Mosh</h1>
+<p id="post-date" class="gray-text">2020.07.11</p>
+
+<h3>Where SSH Falls Short</h3>
+<p>Secure Shell (SSH) is an excellent and deeply-entrenched tool for remote development and system administration, especially on Unix-like operating systems. It can be used any time there is a need to control a remote machine in a secure manner. Among its many <a href="https://en.wikipedia.org/wiki/Secure_Shell#Uses">common use cases</a>, SSH can be used to delegate chunks of work from a relatively underpowered client (like a laptop computer) to a scalable, industry-grade machine (perhaps a VPS on Azure or DigitalOcean).</p>
+<p>SSH is outstanding at providing users a secure communication channel over an unsecured network — <em>but</em> it relies on a singular, unbroken connection (usually TCP) between client and server. This is an acceptable limitation when working at school or an office but not in environments where the network connection is spotty or unreliable. Whenever an SSH connection is broken, the user would need to manually tell SSH to negotiate a new secure channel. And adding to the frustration, SSH does nothing to indicate to the user that a connection has turned stale until they attempt to enter a command. This makes the use of SSH infeasible in any mobile setting.</p>
+<p>SSH (originally created in 1995) was simply created at a time when development work was tied to a desk — and of course, this is no longer the case today. Clearly, there is room for improvement.</p>
+<h3>Enter Mosh</h3>
+<p>Mobile Shell (Mosh) is an alternative to SSH that maintains a robust network connection even over cellular or wifi. The <a href="https://mosh.org/">official site</a> says the following about Mosh:</p>
+<blockquote>
+<p><em>Remote terminal application that allows roaming, supports intermittent connectivity, and provides intelligent local echo and line editing of user keystrokes.</em></p>
+</blockquote>
+<p>Let us parse this description in two parts so we can appreciate what it is saying. First, focus on the first half:</p>
+<h4>A. Roaming and Intermittent Connectivity</h4>
+<p>Like SSH, Mosh is a <em>remote terminal application</em>. While SSH relies on an unbroken communication pipe, Mosh connections are able to persist even when the client is <em>roaming</em>, e.g. the IP address is regularly-changing or the connection is intermittent. What sort of black magick does Mosh employ to achieve this?</p>
+<p>At the beginning of the process, Mosh uses an SSH connection between the client and the server for authentication. This means the same SSH credentials can be used by Mosh, making the two highly interchangeable. Once this initial connection has been established, the actual Mosh connection is created and the SSH connection discarded. At least once every three seconds, the Mosh client sends a “heartbeat” to the Mosh server — each heartbeat containing the client’s IP address, along with a monotonically-increasing number used to determine which heartbeat is most recent. Whenever the server receives a packet with a higher number, it updates itself with the accompanying IP address — and that IP address now become the new target for any packets it may want to send back to the client.</p>
+<p>As long as the server is able to receive heartbeats from the client, then the server has an up-to-date copy of the client’s most recent IP address. As an added benefit, this heartbeat mechanism is also how Mosh is able to provide feedback to the user if it is currently unable to reach the paired server.</p>
+<h4>B. Intelligent Local Echo</h4>
+<p>SSH works by sending a stream of bytes between the server and the client, where each chunk of information must make the trip across the network before the user can get any tangible feedback. As a consequence, even just typing on the terminal over an unreliable connection can become unfeasible due to latency.</p>
+<p>Through something it has dubbed intelligent local echo, Mosh runs a predictive model on the client-side to hypothesize what the server will return. Depending on how responsive the server is, the Mosh client can choose to wait until its prediction is confirmed by an incoming server packet or show the user its unconfirmed prediction. In practice, the responsiveness of a terminal running Mosh tends to be notably better than one running SSH.</p>
+<p>So far, I discussed how Mosh implements the following substantial improvements over SSH:</p>
+<ul>
+<li>Mosh allows roaming and supports intermittent connectivity.</li>
+<li>Through intelligent local echo, Mosh makes it so typing on the terminal shows instant results.</li>
+</ul>
+<p>Additionally, here are some more features:</p>
+<ul>
+<li>Unlike SSH, Ctrl-C works to quickly trigger a signal interrupt when needed.</li>
+<li>Fixes bugs in SSH — including those that may cause terminals to “lock up”.</li>
+</ul>
+<h3>Installing Mosh</h3>
+<p>In my experience, Mosh is trivial to install and does not require executing as superuser. Here is a small sample of install steps for a range of platforms:</p>
+<ul>
+<li>MacOS (using Homebrew): <code>$ brew install mosh</code></li>
+<li>iOS/iPadOS: Install Blink from the App Store.</li>
+<li>Ubuntu: <code>$ sudo apt-get install mosh</code></li>
+</ul>
+<p>Note the following:</p>
+<ul>
+<li>The installation will need to be done on both the client machine and the server. For more platforms, see the <a href="https://mosh.org/#getting">official site</a>.</li>
+<li>If you have a firewall set up (e.g. ufw), you will need to open the ports Mosh requires. In Ubuntu, the command to do this will look something like: <code># ufw allow 60000:61000/udp</code>.</li>
+</ul>
+<h3>Using Mosh</h3>
+<p>If you already have an existing SSH configuration that you invoke using <code>$ ssh &lt;user&gt;@&lt;host&gt;</code>, simply replace “ssh” with “mosh”:</p>
+<p><code>$ mosh &lt;user&gt;@&lt;host&gt;</code></p>
+<p>This is possible because, as discussed earlier, Mosh uses SSH to initialize a connection between client and server. Only after authentication is the SSH connection dropped and the new Mosh connection persisted.</p>
+<h3>A Few Caveats</h3>
+<ul>
+<li>Mosh does not support scrollback. To address this, I recommend <a href="https://github.com/tmux/">tmux</a>.</li>
+<li>I am not a network security expert and cannot speak to the viability of Mosh over SSH for highly-sensitive systems. <a href="https://www.youtube.com/watch?v=P_Jd5k0S_AQ">This guy</a> is of the opinion that it is probably safe for personal and small business use but perhaps not for enterprise.</li>
+</ul>
+<h3>TL/DR</h3>
+<p>Mosh has real and distinctive benefits over SSH, especially when working over an unreliable network connection. Set up and daily use of Mosh alongside SSH is easy so there is little reason for any remote tech worker not to add it to their toolbelt.</p>
+<p class="center-text section-divider">
+    -----
+</p>
+<h3>References</h3>
+<ul>
+<li><a href="https://mosh.org">Mosh.org</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Secure_Shell">Wikipedia - Secure Shell</a></li>
+<li><a href="https://www.youtube.com/watch?v=P_Jd5k0S_AQ">YouTube - Is it safe to Mosh?</a></li>
+</ul>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

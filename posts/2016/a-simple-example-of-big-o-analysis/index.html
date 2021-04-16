@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Simple Example of Big-O Analysis | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">A Simple Example of Big-O Analysis</h1>
+<p id="post-date" class="gray-text">2016.05.09</p>
+
+<p>What makes an algorithm better than another? One measure is Big-O.</p>
+<p>Big-O analysis is concerned with the running time of an algorithm as n gets very large. This is why Big-O analysis is also commonly referred to as worst-case analysis.</p>
+<p>Consider the following two functions. Both take a non-empty array of integers and return the smallest integer. In both functions, n represents the number of elements in the given array.</p>
+<h3>Function A</h3>
+<pre class="language-csharp"><code class="language-csharp"><span class="token comment">// Function A: Compares every element of an array to all others to find the smallest one</span><br><span class="token return-type class-name"><span class="token keyword">int</span></span> <span class="token function">min</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> integerArray<span class="token punctuation">)</span><br><span class="token punctuation">{</span><br>    <span class="token class-name"><span class="token keyword">int</span></span> smallestSoFar<span class="token punctuation">;</span><br><br>    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> integerArray<span class="token punctuation">.</span>Length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><br>    <span class="token punctuation">{</span><br>        <span class="token class-name">boolean</span> isMin <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span><br><br>        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> integerArray<span class="token punctuation">.</span>Length<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span><br>        <span class="token punctuation">{</span><br>            <span class="token keyword">if</span> <span class="token punctuation">(</span>integerArray<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">&lt;</span> integerArray<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><br>            <span class="token punctuation">{</span><br>                isMin <span class="token operator">=</span> <span class="token boolean">false</span><span class="token punctuation">;</span><br>            <span class="token punctuation">}</span><br>        <span class="token punctuation">}</span><br><br>        <span class="token keyword">if</span> <span class="token punctuation">(</span>isMin<span class="token punctuation">)</span><br>        <span class="token punctuation">{</span><br>            smallestInteger <span class="token operator">=</span> integerArray<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span><br>            <span class="token keyword">break</span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><br>    <span class="token keyword">return</span> smallestInteger<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>For each element in the array, function A makes a comparison between that element (let’s call this the <em>subject</em>) and every other element in the array. As soon as an element smaller than the subject is found, the subject is “disqualified” from being the smallest in the array, so function A moves on to the next subject. If a subject is never disqualified and it has been compared to every other element, the subject is declared the smallest and then returned.</p>
+<h3>Function B</h3>
+<pre class="language-csharp"><code class="language-csharp"><span class="token comment">// Function B: Traverses the array once, storing the smallest element encountered so far</span><br><span class="token return-type class-name"><span class="token keyword">int</span></span> <span class="token function">min</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> integerArray<span class="token punctuation">)</span><br><span class="token punctuation">{</span><br>    <span class="token class-name"><span class="token keyword">int</span></span> smallestSoFar<span class="token punctuation">;</span><br><br>    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">int</span></span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> integerArray<span class="token punctuation">.</span>Length<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span><br>    <span class="token punctuation">{</span><br>        <span class="token keyword">if</span> <span class="token punctuation">(</span>smallestSoFar <span class="token operator">==</span> <span class="token keyword">null</span> <span class="token operator">||</span> integerArray<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">&lt;</span> smallestSoFar<span class="token punctuation">)</span><br>        <span class="token punctuation">{</span><br>            smallestSoFar <span class="token operator">=</span> integerArray<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span><br>        <span class="token punctuation">}</span><br>    <span class="token punctuation">}</span><br><br>    <span class="token keyword">return</span> smallestSoFar<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>Function B traverses the array only once. On the first element (the first <em>subject</em>), its value is stored under the variable <em>smallestSoFar</em>. On every subsequent element, function B compares its value to the value in smallestSoFar. If the subject is smaller, the value in smallestSoFar is replaced with the value of the subject. Otherwise, function B moves on to the next subject. Once every element in the array has had its turn to be the subject, the value in smallestSoFar is declared the smallest and returned.</p>
+<h3>Discussion</h3>
+<p>In the worst case, function A will need to compare each element to every other element in the array. Each element from 1st to nth requires up to n comparisons. Therefore, in the worst case, there will be n x n comparisons made. We can then say that function A is O(n<sup>2</sup>), read as “Big-O of n-squared”. On the other hand, in the worst case, function B will only need to make one comparison for every element in the array. Therefore, there will be n comparisons made in total. We can then say that function B is O(n).</p>
+<p>Clearly, the running time of function B as n gets very large is much smaller (better) than function A’s, and we can conclude that function B is better than function A in terms of running time.</p>
+<p>Why take time to optimize our function’s running time? Is it worth it? Sometimes it’s not — but other times it is extremely important. Consider the table below:</p>
+<p class="table-title">
+    Running time for a computer that performs 1 million comparisons per second
+</p>
+<table>
+<thead>
+<tr>
+<th>Big-O</th>
+<th>n=1000</th>
+<th>n=10000</th>
+<th>n=100000</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>O(n)</td>
+<td>.001 secs</td>
+<td>0.01 secs</td>
+<td>0.1 secs</td>
+</tr>
+<tr>
+<td>O(n<sup>2</sup>)</td>
+<td>1 sec</td>
+<td>1.67 mins</td>
+<td>2.78 hours</td>
+</tr>
+<tr>
+<td>O(n<sup>3</sup>)</td>
+<td>16.67 mins</td>
+<td>11.57 days</td>
+<td>31.71 years</td>
+</tr>
+</tbody>
+</table>
+<p>If our computer can make 1 million comparisons per second, we can expect a function with a running time of O(n), function B in our example, to take .001 seconds to process an array of 1000 integers. Function A, with its running time of O(n<sup>2</sup>.), takes 1 second to process the same 1000 integers, much longer than function B. The difference becomes more drastic as n gets larger. For n = 100000 integers, function B will take our computer 0.1 seconds, while function A will take 2.78 hours. A function with running time O(n<sup>3</sup>) will take 31.71 <em>years</em> to compute the same result!</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

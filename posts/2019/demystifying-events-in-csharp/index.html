@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demystifying Events in C# | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">Demystifying Events in C#</h1>
+<p id="post-date" class="gray-text">2019.01.14</p>
+
+<p>In a previous <a href="/posts/2018/demystifying-delegates-in-csharp">post</a>, I talked briefly about delegates as a way to reference one or more methods in C#. In this current post, I intend to demonstrate how events are used in practice, with delegates as the core underlying mechanism.</p>
+<h3>Diving into it</h3>
+<p>Have a look at the following code shown below. It describes similar functionality to the code snippet from <a href="/posts/2018/demystifying-delegates-in-csharp">Demystifying Delegates in C#</a> — but this time using an event.</p>
+<h3>The <em>EventPublisher</em> class</h3>
+<p>Besides the standard <em>Program</em> class, the code has an <em>EventPublisher</em> class for something that publishes an event. In the highlighted line is something with the keyword <em>event</em>, which creates a C# event that references a delegate. The delegate we use in this case is <em>EventHandler</em>, a built-in C# delegate used to trigger events that do not need to pass any arguments to the methods ultimately invoked.</p>
+<p>A similar built-in delegate class that allows argument passing is <em>EventHandler&lt;T&gt;</em>. Since <em>EventHandler</em> and <em>EventHandler&lt;T&gt;</em> are just delegates built into C#, one can easily choose to use a custom delegate instead.</p>
+<p>In <em>Main()</em>, the method <em>RaiseEvent()</em> calls our delegate passing in some required standard parameters corresponding to (1) the sender and (2) another C#-specific built-in class <em>EventArgs</em>.</p>
+<pre class="language-csharp"><code class="language-csharp"><span class="token comment">// Class that publishes an event</span><br><span class="token keyword">class</span> <span class="token class-name">EventPublisher</span><br><span class="token punctuation">{</span><br>    <span class="token comment">// Declare event (which references a delegate)</span><br>    <span class="token keyword">public</span> <span class="token keyword">event</span> <span class="token class-name">EventHandler</span> OnRaiseEvent<span class="token punctuation">;</span><br><br>    <span class="token comment">// Trigger the event</span><br>    <span class="token keyword">public</span> <span class="token keyword">virtual</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">RaiseEvent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><br>    <span class="token punctuation">{</span><br>        OnRaiseEvent<span class="token punctuation">?.</span><span class="token function">Invoke</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">,</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">EventArgs</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<h3>The <em>Program</em> class</h3>
+<p>Our <em>Program</em> class is very simple: It has two simplistic methods that print out “foo” and “bar” respectively and a <em>Main</em> function that serves as the starting point for out C# program.</p>
+<p>The <em>Main</em> function instantiates an object from class EventPublisher. Then, just as in <a href="/posts/2018/demystifying-delegates-in-csharp">Demystifying Delegates in C#</a>, it hooks up each of our two <em>PrintToConsole-</em> methods to our delegate. Finally, invoking <em>RaiseEvent()</em> causes each of our attached methods to also get invoked. The end result is that “foo” and “bar” are printed in the console.</p>
+<pre class="language-csharp"><code class="language-csharp"><span class="token comment">// Starting point for the program</span><br><span class="token keyword">class</span> <span class="token class-name">Program</span><br><span class="token punctuation">{</span><br>    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span><br>    <span class="token punctuation">{</span><br>        <span class="token comment">// Instantiate the publisher and attach methods</span><br>        <span class="token class-name">EventPublisher</span> publisher <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token constructor-invocation class-name">EventPublisher</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>        publisher<span class="token punctuation">.</span>OnRaiseEvent <span class="token operator">+=</span> PrintToConsoleFoo<span class="token punctuation">;</span><br>        publisher<span class="token punctuation">.</span>OnRaiseEvent <span class="token operator">+=</span> PrintToConsoleBar<span class="token punctuation">;</span><br><br>        <span class="token comment">// Trigger the event which calls each of the methods attached</span><br>        publisher<span class="token punctuation">.</span><span class="token function">RaiseEvent</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br><br>    <span class="token comment">// Methods we attach to an event</span><br>    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PrintToConsoleFoo</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span><br>    <span class="token punctuation">{</span><br>        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"foo"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br><br>    <span class="token comment">// Methods we attach to an event</span><br>    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PrintToConsoleBar</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">object</span></span> sender<span class="token punctuation">,</span> <span class="token class-name">EventArgs</span> e<span class="token punctuation">)</span><br>    <span class="token punctuation">{</span><br>        Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span><span class="token string">"bar"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token punctuation">}</span><br><span class="token punctuation">}</span></code></pre>
+<h3>Conclusion</h3>
+<p>In this post, I showed a simple but useful implementation of the events pattern in C# and described how delegates ultimately make this functionality possible. I intentionally kept my discussion of events and delegates brief to maximize its approachability; for a deeper dive, see the <a href="https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/events/">Microsoft C# Programming Guide</a>.</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

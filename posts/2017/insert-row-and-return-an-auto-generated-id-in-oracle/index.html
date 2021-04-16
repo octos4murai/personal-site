@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Insert Row and Return an Auto-Generated Id in Oracle | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">Insert Row and Return an Auto-Generated Id in Oracle</h1>
+<p id="post-date" class="gray-text">2017.08.01</p>
+
+<h3>Problem</h3>
+<p>Consider the following PL/SQL <em>create table</em> and <em>insert</em> statements:</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">CREATE</span> <span class="token keyword">TABLE</span> person<br><span class="token punctuation">(</span><br>    person_id number GENERATED <span class="token keyword">BY</span> <span class="token keyword">DEFAULT</span> <span class="token keyword">ON</span> <span class="token boolean">NULL</span> <span class="token keyword">AS</span> <span class="token keyword">IDENTITY</span><span class="token punctuation">,</span><br>    person_name varchar2<span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span><br>    team_name varchar2<span class="token punctuation">(</span><span class="token number">255</span><span class="token punctuation">)</span> <span class="token operator">NOT</span> <span class="token boolean">NULL</span><span class="token punctuation">,</span><br>    <span class="token keyword">CONSTRAINT</span> person_pk <span class="token keyword">PRIMARY</span> <span class="token keyword">KEY</span> <span class="token punctuation">(</span>person_id<span class="token punctuation">)</span><br><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> person <span class="token punctuation">(</span>person_name<span class="token punctuation">,</span> team_name<span class="token punctuation">)</span><br><span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token string">'Marina'</span><span class="token punctuation">,</span> <span class="token string">'Ketchup'</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br><br><span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> person <span class="token punctuation">(</span>person_name<span class="token punctuation">,</span> team_name<span class="token punctuation">)</span><br><span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token string">'Pearl'</span><span class="token punctuation">,</span> <span class="token string">'Mayo'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>The primary key column <em>person_id</em> is generated automatically if no value is provided. This is great for when the id column can be arbitrary, i.e. we don’t particularly care what the value is as long as it’s unique.</p>
+<p>Pretend an application we are working on makes use of the above table. Our application needs to insert a new row and then retrieve the primary key of the row inserted. How could we go about doing this?</p>
+<p>A first attempt could go like so:</p>
+<ol>
+<li>Make an insert statement within the app’s code.</li>
+<li>Query the database for the row we just inserted using a combination of the column values inserted.</li>
+<li>Return the row’s person_id.</li>
+</ol>
+<p>This solution may be fine if we are sure that a column (or combination of columns) is guaranteed to be unique. Such a guarantee may come in the form of a UNIQUE constraint in the table schema. In this implementation though, no such guarantee exists.</p>
+<p>For instance, we may want to insert a person with person_name ‘Sheldon’ and team_name ‘Mustard’. Oracle will assign an auto-generated id to our row. When we want to retrieve the row however, we can only query based on the columns we have values for (person_name and team_name). Fortunately in this case, the values we have are enough to identify the row we want. This will not always be the case; therefore this implementation is broken.</p>
+<h3>Solution</h3>
+<p>A better approach would be to return the auto-generated id right when the row is inserted into the table. This would ensure we don’t rely on the uniqueness of the other columns for our implementation to work. Additionally, we don’t need to do a comparison across one or more columns to find our row.</p>
+<p>Here is how this can be done:</p>
+<pre class="language-sql"><code class="language-sql"><span class="token keyword">BEGIN</span><br>    <span class="token keyword">INSERT</span> <span class="token keyword">INTO</span> person <span class="token punctuation">(</span>person_name<span class="token punctuation">,</span> team_name<span class="token punctuation">)</span><br>    <span class="token keyword">VALUES</span> <span class="token punctuation">(</span><span class="token string">'Pearl'</span><span class="token punctuation">,</span> <span class="token string">'Cake'</span><span class="token punctuation">)</span><br>    <span class="token keyword">RETURNING</span> person_id <span class="token keyword">into</span> :return_value<span class="token punctuation">;</span><br><span class="token keyword">END</span><span class="token punctuation">;</span></code></pre>
+<p>The auto-generated id is stored in variable <em>return_value</em>. Our app can retrieve this value by doing something like this:</p>
+<pre class="language-csharp"><code class="language-csharp"><span class="token keyword">using</span> <span class="token punctuation">(</span><span class="token class-name">Oracle<span class="token punctuation">.</span>DataAccess<span class="token punctuation">.</span>Client<span class="token punctuation">.</span>OracleCommand</span> command <span class="token operator">=</span> connection<span class="token punctuation">.</span><span class="token function">CreateCommand</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><br><span class="token punctuation">{</span><br>    command<span class="token punctuation">.</span>CommandText <span class="token operator">=</span> <span class="token string">@"BEGIN<br>                                INSERT INTO person (person_name, team_name)<br>                                VALUES ('Pearl', 'Ice cream')<br>                                RETURNING person_id into :return_value;<br>                            END;"</span><span class="token punctuation">;</span><br>    command<span class="token punctuation">.</span>Parameters<span class="token punctuation">.</span><span class="token function">Add</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token constructor-invocation class-name">OracleParameter</span><span class="token punctuation">(</span><span class="token string">"return_value"</span><span class="token punctuation">,</span><br>                                                Oracle<span class="token punctuation">.</span>DataAccess<span class="token punctuation">.</span>Client<span class="token punctuation">.</span>OracleDbType<span class="token punctuation">.</span>Int32<span class="token punctuation">,</span><br>                                                System<span class="token punctuation">.</span>Data<span class="token punctuation">.</span>ParameterDirection<span class="token punctuation">.</span>ReturnValue<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    command<span class="token punctuation">.</span><span class="token function">ExecuteNonQuery</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">return</span> command<span class="token punctuation">.</span>Parameters<span class="token punctuation">[</span><span class="token string">"return_value"</span><span class="token punctuation">]</span><span class="token punctuation">.</span>Value<span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
+<p>That’s all for now!</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

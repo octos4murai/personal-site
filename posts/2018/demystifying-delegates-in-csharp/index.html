@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Demystifying Delegates in C# | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">Demystifying Delegates in C#</h1>
+<p id="post-date" class="gray-text">2018.10.22</p>
+
+<h3>A bit of context</h3>
+<p>Languages like JavaScript treat functions as first-class citizens. This means functions can be passed as parameters and assigned to variables and invoked through these assigned variables. Consider the following JavaScript code:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token comment">// Assign a function to a variable</span><br><span class="token keyword">let</span> <span class="token function-variable function">functionVar</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">message</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><span class="token punctuation">;</span><br><br><span class="token comment">// Call the function</span><br><span class="token function">functionVar</span><span class="token punctuation">(</span><span class="token string">"Hello World"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>In the snippet above, we assign an anonymous function to the variable <em>functionVar</em>. This allows us to invoke the anonymous function, printing a message to the console. This type of behaviour is central to JavaScript and many other “functional” programming languages.</p>
+<p>C# is <em>not</em> a functional programming language, and it does not treat functions as first-class citizens. Nevertheless, there is a way to assign functions to variables and invoke the assigned functions through said variables. We can do this by using <em>delegates</em>.</p>
+<h3>What is a delegate?</h3>
+<p>A <em>delegate</em> is a type in C# class, just like <em>class</em> or <em>struct</em>. It represents a reference to a method similar to the way <em>functionVar</em> references our anonymous JavaScript function in the snippet above.</p>
+<p>Let’s have a look at the code below and note the delegate declaration:</p>
+<pre class="language-csharp"><code class="language-csharp"><span class="highlight-line"><span class="token keyword">class</span> <span class="token class-name">Program</span></span><br><span class="highlight-line"><span class="token punctuation">{</span></span><br><span class="highlight-line">    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">Main</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span><span class="token punctuation">[</span><span class="token punctuation">]</span></span> args<span class="token punctuation">)</span></span><br><span class="highlight-line">    <span class="token punctuation">{</span></span><br><span class="highlight-line">        <span class="token comment">// Instantiate the delegate</span></span><br><span class="highlight-line">        <span class="token class-name">PrintToConsoleDelegate</span> delegateHandler <span class="token operator">=</span> PrintToConsole<span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">        <span class="token comment">// Call the delegate</span></span><br><span class="highlight-line">        <span class="token function">delegateHandler</span><span class="token punctuation">(</span><span class="token string">"Hello World"</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line">    <span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><span class="highlight-line">    <span class="token keyword">static</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PrintToConsole</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> message<span class="token punctuation">)</span></span><br><span class="highlight-line">    <span class="token punctuation">{</span></span><br><span class="highlight-line">        System<span class="token punctuation">.</span>Console<span class="token punctuation">.</span><span class="token function">WriteLine</span><span class="token punctuation">(</span>message<span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line">    <span class="token punctuation">}</span></span><br><span class="highlight-line"><span class="token punctuation">}</span></span><br><span class="highlight-line"></span><br><mark class="highlight-line highlight-line-active"><span class="token keyword">delegate</span> <span class="token return-type class-name"><span class="token keyword">void</span></span> <span class="token function">PrintToConsoleDelegate</span><span class="token punctuation">(</span><span class="token class-name"><span class="token keyword">string</span></span> message<span class="token punctuation">)</span><span class="token punctuation">;</span></mark></code></pre>
+<p>The highlighted line declares the delegate with the following parts: (1) the name <em>PrintToConsoleDelegate</em>, (2) the return type <em>void</em>, and (3) the parameters — this has just one. It looks a lot like a method declaration.</p>
+<p>In <em>Main()</em>, we create an instance of <em>PrintToConsoleDelegate</em> and name it <em>delegateHandler</em>. We then assign to it a reference to the static method <em>PrintToConsole</em>. Then calling the delegate causes its assigned function to be invoked.</p>
+<p>Any method can be assigned to a delegate as long as it has a return type and a set of parameters that match the delegate declaration. In our example above, any method that takes a string and returns void can be assigned to our delegate.</p>
+<h3>Assigning methods to a delegate</h3>
+<p>In the above snippet, we assign a single method to our delegate. But what if we want to assign several methods to a single delegate? This can be done like so:</p>
+<pre class="language-csharp"><code class="language-csharp"><span class="highlight-line"><span class="token class-name">PrintToConsoleDelegate</span> delegateHandler<span class="token punctuation">;</span></span><br><span class="highlight-line">delegateHandler <span class="token operator">+=</span> functionA<span class="token punctuation">;</span></span><br><span class="highlight-line">delegateHandler <span class="token operator">+=</span> functionB<span class="token punctuation">;</span></span><br><mark class="highlight-line highlight-line-active">delegateHandler <span class="token operator">-=</span> functionA<span class="token punctuation">;</span></mark><br><span class="highlight-line">delegateHandler <span class="token operator">+=</span> functionC<span class="token punctuation">;</span></span></code></pre>
+<p>The snippet above shows how methods can be added — <em>and removed</em> — from the delegate. Because the reference to <em>functionA</em> is removed from <em>delegateHandler</em> in the highlighted line, at the end of the snippet, the delegate will only contain references to <em>functionB</em> and <em>functionC</em>.</p>
+<h3>What’s next?</h3>
+<p>Perhaps the biggest application of delegates in C# is <em>events</em>. In a future blog post, I intend to discuss how events are built on top of the functionality of delegates. I plan to do this by transforming our sample delegate functionality above into one that uses <em>events</em> instead.</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

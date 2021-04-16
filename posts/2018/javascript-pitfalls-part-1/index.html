@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JavaScript Pitfalls, Part 1 | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">JavaScript Pitfalls, Part 1</h1>
+<p id="post-date" class="gray-text">2018.06.28</p>
+
+<p>JavaScript is known among software developers for both its popularity and its unconventional, sometimes frustrating design. One of the foremost books on JavaScript, Douglas Crockford’s <a href="https://www.goodreads.com/book/show/2998152-javascript">JavaScript: The Good Parts</a>, even uses its own title to take a loving jab at JavaScript’s notable blend of good parts and bad.</p>
+<p>Throughout the past year or so, I have worked heavily with JavaScript — learning many of its quirks and pitfalls — and despite this, I have grown to really like JavaScript (even vanilla). Today, I find JavaScript very pleasant to use for the most part, even finding myself surprised by its occasional elegance.</p>
+<p>In this series of blog posts <em>JavaScript Pitfalls</em>, I will be demonstrating several design flaws (some in my opinion qualify as legitimate bugs) in the JavaScript language. The goal is to write about lesser known, yet more legitimate, gripes with the language — as opposed to the usual complaints (i.e. type coercion, weak/dynamic typing) which I actually think are just fine.</p>
+<p>Let’s get started.</p>
+<h3>Automatic semi-colon insertion</h3>
+<p>If a piece of code is written to fail, I think it should be allowed to fail. It should not be the interpreter’s job to try and make sense of failing code. Unfortunately, not only does the JavaScript engine try to make sense of failing code, it even occasionally tries to take a guess at missing code!</p>
+<p>Take the following for example, paying attention to the way opening brackets are written on a new line every time. It is not uncommon, especially for developers coming from a C# background, to adopt a bracket convention similar to what’s shown:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">var</span> <span class="token function-variable function">incrementAndWrapInObj</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">originalNum</span><span class="token punctuation">)</span><br><span class="token punctuation">{</span><br>    <span class="token keyword">return</span><br>    <span class="token punctuation">{</span><br>        incrementedNum<span class="token operator">:</span> originalNum <span class="token operator">+=</span> <span class="token number">1</span><br>    <span class="token punctuation">}</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">incrementAndWrapInObj</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>The variable incrementAndWrapInObj points to a function in memory that increments a given number parameter by 1 and returns the incremented number wrapped in an object. However, a bug comprising a common pitfall among C# developers makes it so that the value returned from incrementAndWrapInObj() is always <em>undefined</em>.</p>
+<p>In line 3, the JavaScript engine reads <em>return</em> and assumes that the programmer meant to return the value at that point and merely forgot to append a semi-colon. What is ultimately run resembles the following:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token keyword">var</span> <span class="token function-variable function">incrementAndWrapInObj</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">originalNum</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token keyword">return</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span><br><br>console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token function">incrementAndWrapInObj</span><span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>And it is now clear why the value returned is always <em>undefined</em>. This is one reason why I like to follow JavaScript’s recommended bracket convention and advise that other developers — beginners especially — do the same.</p>
+<h3>Built-in constructors and strict equality</h3>
+<p>Like many other languages, JavaScript supports built-in constructors for primitives (also for arrays and objects):</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="token comment">// Not using a built-in constructor</span><br><span class="token keyword">var</span> boolA <span class="token operator">=</span> <span class="token boolean">true</span><span class="token punctuation">;</span><br><br><span class="token comment">// Using a built-in constructor</span><br><span class="token keyword">var</span> boolB <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Boolean</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>In C# and Java, built-in constructors for primitives exist as well but because these languages are statically-typed, there is not much risk to using them. In JavaScript, they can become more of an issue. With a large and convoluted enough code base, they can often be difficult for new developers to debug.</p>
+<p>Let’s have a look at a few more examples:</p>
+<pre class="language-javascript"><code class="language-javascript"><span class="highlight-line"><span class="token keyword">var</span> numA <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token keyword">var</span> numB <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Number</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><mark class="highlight-line highlight-line-active">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numA <span class="token operator">==</span> numB<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span></mark><br><mark class="highlight-line highlight-line-active">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>numA <span class="token operator">===</span> numB<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span></mark><br><span class="highlight-line"></span><br><span class="highlight-line"><span class="token keyword">var</span> strA <span class="token operator">=</span> <span class="token string">'Hello'</span><span class="token punctuation">;</span></span><br><span class="highlight-line"><span class="token keyword">var</span> strB <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">String</span><span class="token punctuation">(</span><span class="token string">'Hello'</span><span class="token punctuation">)</span><span class="token punctuation">;</span></span><br><span class="highlight-line"></span><br><mark class="highlight-line highlight-line-active">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>strA <span class="token operator">==</span> strB<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// true</span></mark><br><mark class="highlight-line highlight-line-active">console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span>strA <span class="token operator">===</span> strB<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// false</span></mark></code></pre>
+<p>We can see from the highlighted lines that primitives created with built-in constructors are not the same as those created without using built-in constructors. Printing out the value of numA to the console, we get <em>1</em>. On the other hand, the value of numB is <em>Number { 1 }</em>. Looking deeper into numB, it also has a <em>__proto__</em> property containing the function used to construct it.</p>
+<p>Applying the equality operator to numA and numB returns true because of <a href="/posts/2017/coercion-in-javascript">coercion</a> but <em>strict</em> equality returns false. This behaviour may be obvious to experienced developers but it can be downright frustrating to debug given a large and complex code base.</p>
+<p>My personal strategy is to avoid using built-in primitive constructors if I can help it. The same goes with array and object constructors.</p>
+<h3>To be continued…</h3>
+<p>These are just a couple of things to watch out for when programming in JavaScript. There are a number more to tackle but I will save those for a later date.</p>
+<p>“<em>JavaScript Pitfalls</em> will return.” – Marvel Studios</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>

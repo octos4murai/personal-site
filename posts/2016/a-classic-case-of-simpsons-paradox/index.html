@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>A Classic Case of Simpson&#39;s Paradox | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">A Classic Case of Simpson&#39;s Paradox</h1>
+<p id="post-date" class="gray-text">2016.10.27</p>
+
+<p>I was introduced to Simpson’s Paradox at an introductory statistics course in university. I found the concept particularly insightful, and it has stuck with me since. To illustrate Simpson’s Paradox, here is a classic example.</p>
+<p>In 1973, University of California, Berkeley was sued for an apparent gap in the acceptance rate of men and women in their graduate school admissions (<a href="http://homepage.stat.uiowa.edu/~mbognar/1030/Bickel-Berkeley.pdf">Bickel</a> et al., 1975)</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Applications</th>
+<th>Admitted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Men</td>
+<td>8442</td>
+<td><span class="green-text">44%</span></td>
+</tr>
+<tr>
+<td>Women</td>
+<td>4321</td>
+<td><span class="red-text">35%</span></td>
+</tr>
+</tbody>
+</table>
+<p>The number of male applicants was double the number of female applicants, and there seemed to be a large deficit in the proportion of women admitted.</p>
+<p>Upon breaking the data down into individual departments however, a different pattern seemed to arise.</p>
+<table>
+<thead>
+<tr>
+<th>Department</th>
+<th>Men Applied</th>
+<th>Men Admitted</th>
+<th>Women Applied</th>
+<th>Women Admitted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>825</td>
+<td><span class="red-text">62%</span></td>
+<td>108</td>
+<td><span class="green-text">82%</span></td>
+</tr>
+<tr>
+<td>B</td>
+<td>560</td>
+<td><span class="red-text">63%</span></td>
+<td>25</td>
+<td><span class="green-text">68%</span></td>
+</tr>
+<tr>
+<td>C</td>
+<td>325</td>
+<td><span class="green-text">37%</span></td>
+<td>593</td>
+<td><span class="red-text">34%</span></td>
+</tr>
+<tr>
+<td>D</td>
+<td>417</td>
+<td><span class="red-text">33%</span></td>
+<td>375</td>
+<td><span class="green-text">35%</span></td>
+</tr>
+<tr>
+<td>E</td>
+<td>191</td>
+<td><span class="green-text">28%</span></td>
+<td>393</td>
+<td><span class="red-text">24%</span></td>
+</tr>
+<tr>
+<td>F</td>
+<td>373</td>
+<td><span class="red-text">6%</span></td>
+<td>341</td>
+<td><span class="green-text">7%</span></td>
+</tr>
+</tbody>
+</table>
+<p>The breakdown reveals that the proportion of admitted applicants was actually very close to equal — in fact, <a href="http://homepage.stat.uiowa.edu/~mbognar/1030/Bickel-Berkeley.pdf">Bickel</a> et al. claim that the data even showed a “small but statistically significant bias in favor of women.”</p>
+<p>The reason for the discrepancy: female applicants seemed to apply disproportionately to faculties with low admission rates (e.g. Arts and Humanities). On the other hand, more men applied to faculties with higher admission rates (e.g. Science and Engineering).</p>
+<p>This disappearance (or reversal) of a trend upon combining or breaking apart groups is known as Simpson’s Paradox.</p>
+<p>While Simpson’s Paradox has been studied for decades and has essentially been solved (see this answered <a href="http://stats.stackexchange.com/questions/78255/how-to-resolve-simpsons-paradox">question</a> from Stack Exchange), the public can many times seem defenseless against the unethical manipulation of data using statistics to spread misinformation and advance various agenda.</p>
+<p>Just another reminder to maintain a healthy level of skepticism and unbelief, especially when faced with extraordinary claims.</p>
+<p class="center-text section-divider">
+    -----
+</p>
+<h3>References</h3>
+<ul>
+<li><a href="http://homepage.stat.uiowa.edu/~mbognar/1030/Bickel-Berkeley.pdf">Sex Bias in Graduate Admissions: Data from Berkeley</a></li>
+<li><a href="http://stats.stackexchange.com/questions/78255/how-to-resolve-simpsons-paradox">Stack Exchange</a></li>
+<li><a href="https://www.amazon.ca/Statistics-David-Freedman/dp/0393929728">Statistics</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Simpson's_paradox">Wikipedia</a></li>
+</ul>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>
