@@ -39,7 +39,7 @@ Recursion relies on repeatedly invoking the same function. Whenever a function i
 
 Cue tail recursion...
 
-### How Tail Recursion Can Help
+### How tail recursion can help
 
 Tail recursion is a subset of recursion where the recursive call is simultaneously the final computational step.
 
@@ -76,7 +76,7 @@ Tail call optimization is a compiler feature by which a tail-recursive function 
 
 In this sense, the output derived in the final recursion is merely passed back up to the first function. Since no additional work is done between the recursive calls and their respective return statements, the compiler does not need to keep stack space for each method in the recursive process. That space can instead be reused for every recursive function call.
 
-### When is Tail Recursion Worth the Trouble?
+### When is tail recursion worth the trouble?
 
 Unfortunately, many compiler writers have decided not to support tail call optimization, in effect forcing their users to use an iterative implementation for anything that involves sufficiently deep recursion.
 

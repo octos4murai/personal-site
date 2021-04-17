@@ -4,7 +4,7 @@ title: Static Classes vs Singleton Pattern
 date: 2017-02-10
 ---
 
-### Classes and Objects
+### Classes and objects
 
 In object-oriented programming, classes are templates containing any combination of methods and variables. A class definition determines the components of the instances of that class, which are called objects. Objects exhibit behaviours defined by its class.
 
@@ -47,7 +47,7 @@ Console.WriteLine(currentPresident.GetLastName());
 Console.WriteLine(currentPresident.PrintInfo());
 ```
 
-### Static Classes (in C#)
+### Static classes (in C#)
 
 While classes are usually written to be instantiated into objects, static classes cannot be instantiated. As such, they can have neither instance constructors nor non-static members. One way to think about static classes is that they are functionally the same as any regular class with only static members and a [private](/posts/2016/access-modifiers-in-csharp) constructor.
 
@@ -88,7 +88,7 @@ Console.WriteLine($"25c in F is {tempInF}.");
 Console.WriteLine($"25F in c is {tempInC}.");
 ```
 
-### Singleton Pattern
+### Singleton pattern
 
 Whereas the *static* keyword is a feature of the C# (and Java) language, the Singleton is an architectural design pattern. Like its name suggests, a Singleton is a class that has a maximum of one instance. Through [lazy initialization](https://en.wikipedia.org/wiki/Lazy_initialization), a singleton class can be implemented such that it is created during runtime precisely the first time it is needed. This makes it inherently more lightweight than a static class, which is always created at compile time.
 
@@ -118,7 +118,7 @@ public class Singleton
 
 We can see from the code that the constructor is marked *private*, which allows only methods in the same class to create a new instance of the class. The *Instance* method is the the only public method that calls the constructor, and it is designed to only call that constructor if an instance of the class does not already exist.
 
-### Static Classes vs Singleton Pattern
+### Static classes vs Singleton pattern
 
 Developers don't necessarily need to choose between static components and a Singleton design pattern. In fact in C#, a good implementation of Singleton usually incorporates some static members. In general though, static classes are easier to write and use correctly. Personally, I like to write static classes for ancillary components in my projects, such as tools and utilities.
 

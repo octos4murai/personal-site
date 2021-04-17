@@ -17,7 +17,7 @@ DateRangeParser accepts the following formats and returns a start date and end d
 | 12 and 13 December 2016 | 2016-12-12 | 2016-12-13 |
 | 01 - 31 January 2017 | 2017-01-01 | 2017-01-31 |
 
-### Sample Usage
+### Sample usage
 
 ```csharp
 string dateRangeString = "19 November - 31 December 2016";

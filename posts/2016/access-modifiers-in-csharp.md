@@ -12,7 +12,7 @@ A simplistic way to visualize encapsulation is to imagine, for instance, a machi
 
 In the same way, if I am writing code that other components rely on, I want to minimize any risk of those components breaking should I need to alter my implementation in the future.
 
-### Access Modifiers
+### Access modifiers
 
 "*Access modifiers help us implement encapsulation.*" -- Ben S, [Stack Overflow](http://stackoverflow.com/a/1020776)
 

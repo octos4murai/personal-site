@@ -19,7 +19,7 @@ Here is what I wanted to achieve:
 1. Have the ability to work on the NUC remotely through `ssh`, and
 2. Do the above while on a residential internet connection with a dynamic IP address.
 
-### Creating the SSH Server
+### Creating the SSH server
 
 The first step is simple to achieve. On my machine using [Pop!_OS](https://pop.system76.com/), I ran:
 
@@ -31,7 +31,7 @@ Since Pop!_OS is based on Ubuntu/Debian, the same command will work for Ubuntu, 
 
 Even before any configuration, installing `openssh-server` is enough to support incoming `ssh` connections within the local network. So at this point, I am able to connect locally to my NUC from my MacBook through the NUC's local IP address.
 
-### Working Around a Dynamic IP Address
+### Working around a dynamic IP address
 
 The second step is a lot more involved than the first. There are a couple distinct challenges here:
 
@@ -50,7 +50,7 @@ Then to deal with the second challenge, I did the following:
 
 By using a free third-party service and making configuration changes to my home router, I was able to guarantee a reliable way to connect to my home server through `ssh` from an outside device.
 
-### Additional Security
+### Additional security
 
 Since I have opened up my home network to incoming traffic from the public Internet, it is crucial that I think about what security features I can put up to minimize my attack surface. Here is what I have done so far:
 

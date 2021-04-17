@@ -4,7 +4,7 @@ title: Coercion in JavaScript
 date: 2017-04-02
 ---
 
-### Static vs Dynamic Typing
+### Static vs dynamic typing
 
 The difference between static typing and dynamic typing has to do with two things:
 
@@ -25,7 +25,7 @@ string a = "foo";
 var b = "foo";
 ```
 
-### Coercion in Javascript
+### Coercion in JavaScript
 
 As a dynamically-typed language, allows variables to be assigned values of different types:
 
@@ -35,9 +35,9 @@ b = 15;             // b is reassigned the numeric value 15
 var c = true && b;  // c is assigned the value 15
 ```
 
-To support this, Javascript relies on coercion, which means implicitly converting a variable's type to another. For the unaware, coercion can cause some seemingly strange behaviour. In the highlighted line of the snippet above for instance, variable c is assigned the numeric value *15* because the operator *&&* causes *b* to be evaluated to *true* (i.e. var *c* = *true* && *true*) --- but then assigns the real value (before coercion) of the last operand to c.
+To support this, JavaScript relies on coercion, which means implicitly converting a variable's type to another. For the unaware, coercion can cause some seemingly strange behaviour. In the highlighted line of the snippet above for instance, variable c is assigned the numeric value *15* because the operator *&&* causes *b* to be evaluated to *true* (i.e. var *c* = *true* && *true*) --- but then assigns the real value (before coercion) of the last operand to c.
 
-Because Javascript syntax is so close to that of Java (and C#, etc.), Javascript developers coming from these languages are sometimes deceived into thinking the equality operator *==* in Javascript is the same as that in Java. Because Javascript coerces values, *==* in Javascript is less stringent than in Java. For instance:
+Because JavaScript syntax is so close to that of Java (and C#, etc.), JavaScript developers coming from these languages are sometimes deceived into thinking the equality operator *==* in JavaScript is the same as that in Java. Because JavaScript coerces values, *==* in JavaScript is less stringent than in Java. For instance:
 
 ```javascript
 // Each of the following evaluates to true
@@ -55,7 +55,7 @@ var e = false === 'false';
 var f = 15 === '1' + 5;
 ```
 
-### Leveraging Coercion
+### Leveraging coercion
 
 When used properly, coercion and *==* can allow developers to write some really clean and concise code. Note the example below:
 
@@ -86,17 +86,17 @@ Methods^1^ A, B, C all do the same thing but are written in order of conciseness
 
 Method A is the clunkiest implementation. The strict equality is used to check that the variable is not strictly equal to null and not strictly equal to undefined.
 
-Method B uses coercion and the *==* operator. Since the Javascript engine coerces b to be equal to *null* even if its value is actually *undefined*, we can use this singular check to achieve the desired result.
+Method B uses coercion and the *==* operator. Since the JavaScript engine coerces b to be equal to *null* even if its value is actually *undefined*, we can use this singular check to achieve the desired result.
 
 Method C is the most elegant solution and also demonstrates knowledge of coercion. If c is either *null* or *undefined*, the alternate value "Hello world" is printed in its stead.
 
 ### TL/DR
 
-Understanding coercion (along with *equality* and *strict equality* in Javascript) allows developers to avoid common pitfalls and write cleaner, more elegant code.
+Understanding coercion (along with *equality* and *strict equality* in JavaScript) allows developers to avoid common pitfalls and write cleaner, more elegant code.
 
 {% include section-divider.njk %}
 
 ### Notes
 
 - ^1^ To be clear, the word *method* is not used in the object-oriented sense here.
-- ^2^ In Javascript, *null* and *undefined* are two distinct primitive values. *null* connotes an intentional lack of value, while *undefined* means a value was never set.
+- ^2^ In JavaScript, *null* and *undefined* are two distinct primitive values. *null* connotes an intentional lack of value, while *undefined* means a value was never set.

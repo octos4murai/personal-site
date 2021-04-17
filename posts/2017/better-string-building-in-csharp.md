@@ -14,7 +14,7 @@ Modifying a string in C is as simple as modifying the corresponding element/s of
 
 Examine the code below as an example of this sub-optimal operation. Then have a look further below for a better alternative, making use of the *StringBuilder* class.
 
-### The Common Way
+### The common way
 
 ```csharp
 // A
@@ -54,7 +54,7 @@ At each iteration, a new object is instantiated, and its string representation r
 
 You may have noticed I used a class *StringBuilder*, which seems to be able to mutate strings through the method *Append()*. Couldn't that class be used to create the string instead of the *String* class? Yes, it can; this leads us to our alternative...
 
-### A Better Way
+### A better way
 
 Like *String*, *StringBuilder* is a class that represents a string. Unlike *String* however, *StringBuilder* is used explicitly for --- *pause for effect* --- building strings. *StringBuilder* is mutable, which means a new object need not be created at each iteration of our code.
 

@@ -27,7 +27,7 @@ private int Add(int a, int b, int c, int d)
 
 The snippet contains three methods, each adding a number of integers. The methods exhibit overloading --- their names are identical and their implementations differ based on their arguments. Overloading does not only occur when we have different numbers of arguments. Different argument types can also be used to differentiate between overloaded methods, e.g. *add(string, int)* and *add(int, int)* are also overloaded methods.
 
-### Improving on our Initial Approach
+### Improving on our initial approach
 
 Although the code in the previous section is valid, it can be observed that it is impractical in at least one way: if we want to add more and more integers we need to either add new methods (option A) or nest methods together (option B) like so:
 

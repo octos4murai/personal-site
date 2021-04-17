@@ -4,7 +4,7 @@ title: Improvising Float Division in Tableau
 date: 2016-09-10
 ---
 
-### The Problem
+### The problem
 
 Working with Tableau 9.3, I was surprised to find that a built-in function for dividing two floats was missing. I don't know if this has been remedied in the most recent version of Tableau.
 
@@ -13,7 +13,7 @@ Tableau 9.3 has only one division function: DIV(integer, integer), which returns
 1. Find a way to simulate float division using integer division, and
 2. Get both the integer and non-integer portions of the quotient.
 
-### Test Variables
+### Test variables
 
 > float *a* = 5.502
 

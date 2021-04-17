@@ -18,13 +18,13 @@ Keyshorts looked great and was well-priced. Unfortunately, their order processin
 
 On the other hand, WoodWe was priced at a premium. And true to its name, WoodWe products are not made of the usual vinyl. Instead, it is made of real wood (usually --- sometimes it is made of real stone). Their website showcased their products very well and order processing and shipping was quick --- so despite the hefty price, I gave them a try.
 
-### Ordering and Shipping
+### Ordering and shipping
 
 The online ordering process was smooth, thanks in large part to WoodWe's impeccable website. There were plenty of high-quality photos which showcased their products in a variety of angles, and the selection was plentiful. They had an FAQ section which was generally helpful but missed key pieces of information (more on this later). Order processing took about a day and shipping (I went with the quick option) took about two or three business days.
 
 When the product arrived, I immediately noticed the quality of WoodWe's packaging which like their website was premium-quality. There is little chance of any product damage during shipping here. While opening the package, I got the sense that I was opening something special.
 
-### Initial Impressions and Installation
+### Initial impressions and installation
 
 Upon seeing and touching the keyboard skin (I got the walnut variant), I was in awe of how luxurious it felt. Feeling the wood at my fingertips instead of matte plastic was transformative and, in my opinion, worth the relatively steep price. I suddenly could not wait to install the keyboard skin on my laptop.
 
@@ -34,7 +34,7 @@ Installation was easy and took around an hour. It was a fun and rewarding proces
 
 The initial unboxing experience, along with the installation process, was truly excellent. I am unable to find any faults here.
 
-### Using the Product
+### Using the product
 
 Of course, the most important part of all is how good the product actually is. And off the top, there are some large downsides that might be dealbreakers for many:
 

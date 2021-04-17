@@ -15,7 +15,7 @@ A common misconception is that strong typing is synonymous with static typing an
 
 While I find that definitions for strong/weak typing and static/dynamic typing are plentiful and sometimes contradictory, I will attempt to put forth definitions that makes sense to me --- and more importantly, preserve the usefulness of these terms.
 
-### Strong vs Weak Typing
+### Strong vs weak typing
 
 To determine whether a language implements strong or weak typing, we must look at the *value* being assigned to a variable. In strongly-typed languages, value types remain the same throughout the entire lifetime of the program. Weak typing, on the other hand, allows values of one type to be *coerced* into a different type:
 
@@ -31,7 +31,7 @@ In the code above, the first parameter passed to *printf* is a string containing
 
 This implicit conversion is not supported in a strongly-typed language.
 
-### Static vs Dynamic Typing
+### Static vs dynamic typing
 
 Unlike strong or weak typing, identifying whether a language uses static or dynamic typing means inspecting the type of the *variable* referencing the value, not the type of the value.
 

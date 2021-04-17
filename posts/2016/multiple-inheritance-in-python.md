@@ -6,7 +6,7 @@ date: 2016-12-21
 
 Multiple inheritance is supported but usually not recommended in Python. In my own work, I certainly avoid it if I can. Nevertheless, I think it is important for Python developers to understand what multiple inheritance is and how it is implemented.
 
-### A Simple Example of Inheritance
+### A simple example of inheritance
 
 Consider the following snippet of code:
 
@@ -33,7 +33,7 @@ Inheritance allows the call to the method get_age() on variable t (which is of t
 
 After the interpreter goes through a similar process to address the call to t.get_age(), the program prints out 41.
 
-### An Example of Multiple Inheritance
+### An example of multiple inheritance
 
 Now consider the following:
 
@@ -61,7 +61,7 @@ print t.get_age()
 
 The first thing to note is that the class Tourist now inherits from two other classes: Japanese and Korean. Both Japanese and Korean inherit from Person. However, Korean overrides Person's implementation of &#95;&#95;init&#95;&#95;(). Suddenly, it is not so simple to reason about which value will be printed. Will it be the Japanese/Person age or Korean age?
 
-### Arriving at the Answer
+### Arriving at the answer
 
 To arrive at the answer, we need to look at something called the Method Resolution Order (MRO). [Wikipedia](https://en.wikipedia.org/wiki/C3_linearization) defines it as "an algorithm used primarily to obtain the order in which methods should be inherited (the "linearization") in the presence of multiple inheritance."
 

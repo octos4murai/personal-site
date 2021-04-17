@@ -66,7 +66,7 @@ Well, in the highlighted lines above, I added those values to properties of the 
 
 While I made the *Array.prototype* property assigments glaringly obvious in this example, in real non-trivial applications, this can quickly become very hard to debug. Many times, we just cannot ensure that the object we are looping on has not been tampered with either within our own code or within a library our code uses. Thus, my personal rule is to make things simple and stick with for loops in JavaScript.
 
-### Inner Functions and *this*
+### Inner functions and *this*
 
 The example below shows the creation of an object *myObj* and two functions within it *buggyFun* and *fixedFun*. Within each of these functions, another function --- we call this an inner function --- is declared and set to be invoked when a user clicks within the browser window:
 

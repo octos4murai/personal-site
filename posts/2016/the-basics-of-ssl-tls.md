@@ -12,7 +12,7 @@ To provide a concrete use-case scenario, it's what prevents (or tries to prevent
 
 For the rest of this post, I'll just use the common name SSL to refer to SSL/TLS.
 
-### Clients and Servers
+### Clients and servers
 
 In software development, clients and servers are two types of entities in a software design model. Clients typically request service, and servers are the entities that provide that service. When I access my bank account online, my browser is the client, and the bank's computer network is the server.
 
@@ -20,7 +20,7 @@ The goal of SSL is to facilitate the secure transferrence of data between two pa
 
 For the rest of this post, I'll assume that our two entities are made up of a client and a server.
 
-### The Handshake
+### The handshake
 
 *Handshake* is a novel term for the authentication process between client and server. A handshake in SSL increases trust between the entities involved and provides guarantees for secure data transfer for the rest of the transaction.
 

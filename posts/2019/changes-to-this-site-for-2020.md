@@ -14,7 +14,7 @@ To improve this situation, I wrote a simple Dockerfile for my project. I learned
 
 The docker image is here: [alidian/github-pages](https://hub.docker.com/r/alidian/github-pages). The Dockerfile used to generate it can be found in my [GitHub](https://github.com/octos4murai/octos4murai.github.io/blob/master/Dockerfile).
 
-### Domain Change
+### Domain change
 
 Recently, I switched from my old domain [idian.al](http://idian.al) to the current [octos4murai.github.io](https://octos4murai.github.io). From the beginning, this site has always been hosted on GitHub through the GitHub Pages feature, where GitHub uses a static site generator to build a site from scratch each time. This approach has many benefits, some of which I discuss in my post [Jekyll: An Incomplete Overview](/posts/2016/jekyll-an-incomplete-overview).
 

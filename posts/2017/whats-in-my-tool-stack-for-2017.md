@@ -6,7 +6,7 @@ date: 2017-01-27
 
 After some planning and testing, I've come up with a small list of applications that will compose my tool stack for the rest of the year. I think listing these applications down will help me commit to learning them deeply as I do my work. For each tool, I include a short rationale, along with other tools I also highly considered.
 
-### Text Editor
+### Text editor
 
 [Visual Studio Code](https://code.visualstudio.com/)
 Availability: *Cross-platform*

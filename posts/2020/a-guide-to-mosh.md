@@ -4,7 +4,7 @@ title: A Guide to Mosh
 date: 2020-07-11
 ---
 
-### Where SSH Falls Short
+### Where SSH falls short
 
 Secure Shell (SSH) is an excellent and deeply-entrenched tool for remote development and system administration, especially on Unix-like operating systems. It can be used any time there is a need to control a remote machine in a secure manner. Among its many [common use cases](https://en.wikipedia.org/wiki/Secure_Shell#Uses), SSH can be used to delegate chunks of work from a relatively underpowered client (like a laptop computer) to a scalable, industry-grade machine (perhaps a VPS on Azure or DigitalOcean).
 
@@ -20,7 +20,7 @@ Mobile Shell (Mosh) is an alternative to SSH that maintains a robust network
 
 Let us parse this description in two parts so we can appreciate what it is saying. First, focus on the first half:
 
-#### A. Roaming and Intermittent Connectivity
+#### A. Roaming and intermittent connectivity
 
 Like SSH, Mosh is a *remote terminal application*. While SSH relies on an unbroken communication pipe, Mosh connections are able to persist even when the client is *roaming*, e.g. the IP address is regularly-changing or the connection is intermittent. What sort of black magick does Mosh employ to achieve this?
 
@@ -28,7 +28,7 @@ At the beginning of the process, Mosh uses an SSH connection between the client 
 
 As long as the server is able to receive heartbeats from the client, then the server has an up-to-date copy of the client's most recent IP address. As an added benefit, this heartbeat mechanism is also how Mosh is able to provide feedback to the user if it is currently unable to reach the paired server.
 
-#### B. Intelligent Local Echo
+#### B. Intelligent local echo
 
 SSH works by sending a stream of bytes between the server and the client, where each chunk of information must make the trip across the network before the user can get any tangible feedback. As a consequence, even just typing on the terminal over an unreliable connection can become unfeasible due to latency.
 
@@ -65,7 +65,7 @@ If you already have an existing SSH configuration that you invoke using `$ ssh <
 
 This is possible because, as discussed earlier, Mosh uses SSH to initialize a connection between client and server. Only after authentication is the SSH connection dropped and the new Mosh connection persisted.
 
-### A Few Caveats
+### A few caveats
 
 - Mosh does not support scrollback. To address this, I recommend [tmux](https://github.com/tmux/).
 - I am not a network security expert and cannot speak to the viability of Mosh over SSH for highly-sensitive systems. [This guy](https://www.youtube.com/watch?v=P_Jd5k0S_AQ) is of the opinion that it is probably safe for personal and small business use but perhaps not for enterprise.

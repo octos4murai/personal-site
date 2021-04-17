@@ -4,7 +4,7 @@ title: Synchrony and Event Handling in JavaScript
 date: 2016-06-13
 ---
 
-### Synchronous Execution and the Execution Stack
+### Synchronous execution and the execution stack
 
 The JavaScript engine is synchronous and single-threaded. Code is executed line by line, in the order it is written. For instance, it is simple to deduce the order in which the following function is executed:
 
@@ -53,7 +53,7 @@ At the start of each scope, the compiler allocates memory for all variables used
 
 Moreover, JavaScript maintains something called the execution stack which always begins with the global execution context. When the call to function b is made, function b’s execution context is pushed onto the stack --- on top of the global execution context. At that point, no code in the global execution context is run. Similarly, when function b makes a call to function a, function a’s execution context is pushed onto the execution stack, and no code in function b or the global execution context gets executed. Once code in the top-most execution context finishes, that execution context is popped off the stack, and the one that was immediately below it is resumed.
 
-### Event Handlers and the Event Queue
+### Event handlers and the event queue
 
 But what about event handlers, isn't *that* an example of asynchrony in JavaScript? Not really. Instead, event handlers in JavaScript provide, what is in my opinion, the illusion of asynchrony.
 
