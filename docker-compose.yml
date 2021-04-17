@@ -1,0 +1,10 @@
+version: "3"
+services:
+
+  personal-site:
+    image: node
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/personal-site
+    network_mode: "host"
