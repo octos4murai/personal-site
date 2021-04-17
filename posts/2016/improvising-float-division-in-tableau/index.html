@@ -29,14 +29,14 @@
 <h1 id="post-title">Improvising Float Division in Tableau</h1>
 <p id="post-date" class="gray-text">2016.09.10</p>
 
-<h3>The Problem</h3>
+<h3>The problem</h3>
 <p>Working with Tableau 9.3, I was surprised to find that a built-in function for dividing two floats was missing. I don’t know if this has been remedied in the most recent version of Tableau.</p>
 <p>Tableau 9.3 has only one division function: DIV(integer, integer), which returns the integer portion of the quotient. Since my task was to divide two floats (each with three decimal places), my problem was two-part:</p>
 <ol>
 <li>Find a way to simulate float division using integer division, and</li>
 <li>Get both the integer and non-integer portions of the quotient.</li>
 </ol>
-<h3>Test Variables</h3>
+<h3>Test variables</h3>
 <blockquote>
 <p>float <em>a</em> = 5.502</p>
 </blockquote>

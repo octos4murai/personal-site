@@ -39,12 +39,12 @@
 <li>Have the ability to work on the NUC remotely through <code>ssh</code>, and</li>
 <li>Do the above while on a residential internet connection with a dynamic IP address.</li>
 </ol>
-<h3>Creating the SSH Server</h3>
+<h3>Creating the SSH server</h3>
 <p>The first step is simple to achieve. On my machine using <a href="https://pop.system76.com/">Pop!_OS</a>, I ran:</p>
 <pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> openssh-server</code></pre>
 <p>Since Pop!_OS is based on Ubuntu/Debian, the same command will work for Ubuntu, Debian, and other distros in the same family.</p>
 <p>Even before any configuration, installing <code>openssh-server</code> is enough to support incoming <code>ssh</code> connections within the local network. So at this point, I am able to connect locally to my NUC from my MacBook through the NUC’s local IP address.</p>
-<h3>Working Around a Dynamic IP Address</h3>
+<h3>Working around a dynamic IP address</h3>
 <p>The second step is a lot more involved than the first. There are a couple distinct challenges here:</p>
 <ol>
 <li>Since my residential internet connection has a dynamic IP address, I can’t rely on my home’s public IP address to remain consistent over any period of time. I would like a solution that automatically handles this whenever it happens.</li>
@@ -61,7 +61,7 @@
 <li>Since <a href="https://en.wikipedia.org/wiki/Port_forwarding">Port Forwarding</a> uses the local IP to send data to my NUC, I need to make sure my device’s local IP stays the same. To achieve this, I added an entry in my router’s <a href="https://homenetworkadmin.com/dhcp-reservation/">DHCP Reservation</a> list which permanently allocates an address to my NUC (using the MAC address).</li>
 </ul>
 <p>By using a free third-party service and making configuration changes to my home router, I was able to guarantee a reliable way to connect to my home server through <code>ssh</code> from an outside device.</p>
-<h3>Additional Security</h3>
+<h3>Additional security</h3>
 <p>Since I have opened up my home network to incoming traffic from the public Internet, it is crucial that I think about what security features I can put up to minimize my attack surface. Here is what I have done so far:</p>
 <ul>
 <li>Configured my router to block all incoming connections except for specific ports (and specific types of connections),</li>

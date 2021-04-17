@@ -38,12 +38,12 @@
 <li>weak-dynamic (Javascript).</li>
 </ul>
 <p>While I find that definitions for strong/weak typing and static/dynamic typing are plentiful and sometimes contradictory, I will attempt to put forth definitions that makes sense to me — and more importantly, preserve the usefulness of these terms.</p>
-<h3>Strong vs Weak Typing</h3>
+<h3>Strong vs weak typing</h3>
 <p>To determine whether a language implements strong or weak typing, we must look at the <em>value</em> being assigned to a variable. In strongly-typed languages, value types remain the same throughout the entire lifetime of the program. Weak typing, on the other hand, allows values of one type to be <em>coerced</em> into a different type:</p>
 <pre class="language-c"><code class="language-c"><span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token keyword">void</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    bool sampleBoolean <span class="token operator">=</span> true<span class="token punctuation">;</span><br>    <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span> sampleBoolean<span class="token punctuation">)</span><span class="token punctuation">;</span><br>    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span><br><span class="token punctuation">}</span></code></pre>
 <p>In the code above, the first parameter passed to <em>printf</em> is a string containing the format specifier <em>%d</em>. This tells the function to expect a value of type integer as the second parameter. Instead we pass in the boolean value <em>true</em>. The C compiler coerces the boolean value into an integer value and prints the string “1”.</p>
 <p>This implicit conversion is not supported in a strongly-typed language.</p>
-<h3>Static vs Dynamic Typing</h3>
+<h3>Static vs dynamic typing</h3>
 <p>Unlike strong or weak typing, identifying whether a language uses static or dynamic typing means inspecting the type of the <em>variable</em> referencing the value, not the type of the value.</p>
 <p>In a static-typed language, variables themselves have a type; this type dictates what values can be referenced by the variables. For instance, a variable of type <em>int</em> in a static-typed language can only ever hold an int. This is true throughout the life of the program.</p>
 <p>Since C# is a static-typed language, the following code returns an error:</p>

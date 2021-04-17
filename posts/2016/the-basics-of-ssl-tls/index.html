@@ -33,11 +33,11 @@
 <p>SSL is commonly used to refer to both Transport Layer Security (TLS) and Secure Sockets Layer (SSL). Technically, SSL is the older and deprecated version of the technology, while TLS is the current standard. They are sets of procedures that facilitate data encryption and authentication between computers in situations where data is sent across an insecure network (<a href="https://luxsci.com/blog/ssl-versus-tls-whats-the-difference.html">Kangas</a>, 2016).</p>
 <p>To provide a concrete use-case scenario, it’s what prevents (or tries to prevent) malicious parties from snuffing out my information when I access my bank account online.</p>
 <p>For the rest of this post, I’ll just use the common name SSL to refer to SSL/TLS.</p>
-<h3>Clients and Servers</h3>
+<h3>Clients and servers</h3>
 <p>In software development, clients and servers are two types of entities in a software design model. Clients typically request service, and servers are the entities that provide that service. When I access my bank account online, my browser is the client, and the bank’s computer network is the server.</p>
 <p>The goal of SSL is to facilitate the secure transferrence of data between two parties over an inherently insecure network. Often, these two parties are composed of a client and a server (but not always).</p>
 <p>For the rest of this post, I’ll assume that our two entities are made up of a client and a server.</p>
-<h3>The Handshake</h3>
+<h3>The handshake</h3>
 <p><em>Handshake</em> is a novel term for the authentication process between client and server. A handshake in SSL increases trust between the entities involved and provides guarantees for secure data transfer for the rest of the transaction.</p>
 <p>The general process goes like this (heavily borrowed from <a href="https://www.ssl.com/article/ssl-tls-handshake-overview/">SSL.com</a>):</p>
 <p><span class="green-text">Client</span></p>

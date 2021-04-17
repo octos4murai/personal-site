@@ -37,7 +37,7 @@
 <p>Alas, recursive implementations have a common problem!</p>
 <p>Recursion relies on repeatedly invoking the same function. Whenever a function is invoked, a contiguous section of memory is allocated on the stack. Every time a function finishes executing, that section of memory is freed. By invoking functions within functions (within functions) such that none of them finish executing, the stack can fill up quickly, eventually resulting in a <em>stack overflow</em>.</p>
 <p>Cue tail recursion…</p>
-<h3>How Tail Recursion Can Help</h3>
+<h3>How tail recursion can help</h3>
 <p>Tail recursion is a subset of recursion where the recursive call is simultaneously the final computational step.</p>
 <p>In the function FactorialRecursive() above, we see in the highlighted line above that the recursive call <em>FactorialRecursive(number - 1)</em> is only the penultimate step. The final step is actually to multiply the result of that call with the value in variable <em>number</em>.</p>
 <p>Here is a tail recursive version of the same function:</p>
@@ -46,7 +46,7 @@
 <p>Well, many popular language compilers recognize this structure and are able to perform <em>tail-call optimization</em>.</p>
 <p>Tail call optimization is a compiler feature by which a tail-recursive function can take no additional stack space beyond the initial function. This ability comes with the realization that any tail-recursive function A calling tail-recursive function B (in this instance B is the same function as A) needs only return whatever function B returns.</p>
 <p>In this sense, the output derived in the final recursion is merely passed back up to the first function. Since no additional work is done between the recursive calls and their respective return statements, the compiler does not need to keep stack space for each method in the recursive process. That space can instead be reused for every recursive function call.</p>
-<h3>When is Tail Recursion Worth the Trouble?</h3>
+<h3>When is tail recursion worth the trouble?</h3>
 <p>Unfortunately, many compiler writers have decided not to support tail call optimization, in effect forcing their users to use an iterative implementation for anything that involves sufficiently deep recursion.</p>
 <p>Simply put, know whether your language compiler supports tail call optimization. If it does (e.g. ES6, Scheme, Scala), recursive functions are a viable option. Otherwise (e.g. stock Python, Java, C#), stick with loops.</p>
 

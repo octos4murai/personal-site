@@ -63,7 +63,7 @@
 </tr>
 </tbody>
 </table>
-<h3>Sample Usage</h3>
+<h3>Sample usage</h3>
 <pre class="language-csharp"><code class="language-csharp"><span class="token class-name"><span class="token keyword">string</span></span> dateRangeString <span class="token operator">=</span> <span class="token string">"19 November - 31 December 2016"</span><span class="token punctuation">;</span><br><span class="token class-name">ScheduledOutagesDateRangeParser</span> dateRangeParser<span class="token punctuation">;</span><br><br><span class="token comment">// parsedDates is a list of two dates: start date and end date</span><br><span class="token class-name">List<span class="token punctuation">&lt;</span>DateTime<span class="token punctuation">></span></span> parsedDates <span class="token operator">=</span> dateRangeParser<span class="token punctuation">.</span><span class="token function">ParseDateRangeString</span><span class="token punctuation">(</span>dateRangeString<span class="token punctuation">)</span><span class="token punctuation">;</span><br><span class="token keyword">return</span> parsedDates<span class="token punctuation">;</span></code></pre>
 <h3>Implementation</h3>
 <p>Inspired by machine learning data processing techniques, DateRangeParser begins by creating a word bank and a proximity table.</p>
