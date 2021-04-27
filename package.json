@@ -1,6 +1,6 @@
 {
   "name": "personal-site",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A personal site about software development",
   "main": ".eleventy.js",
   "scripts": {
