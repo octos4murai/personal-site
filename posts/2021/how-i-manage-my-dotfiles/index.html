@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>How I Manage My Dotfiles | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">How I Manage My Dotfiles</h1>
+<p id="post-date" class="gray-text">2021.04.28</p>
+
+<h3>What are dotfiles?</h3>
+<p>Dotfiles are the conventional way to manage user application preferences on Unix-like systems. They are simple text files read by a user’s applications, usually on application start up. The name “dotfiles” itself is derived from the fact that these files begin with a “.” (e.g. <code>.bash_profile</code>, <code>.vimrc</code>, etc.), in effect also making them hidden files.</p>
+<p>Since dotfiles are in plain-text, they are universally easy to read and modify. But also they are highly-portable. By copying over a user’s dotfiles to the expected location on an otherwise new file system, the user instantly has access to their application preferences.</p>
+<p>To illustrate, suppose I am a user that is accustomed to the following custom bash function <code>mcd</code>:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token keyword">function</span> <span class="token function-name function">mcd</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>    <span class="token function">mkdir</span> -p <span class="token string">"<span class="token variable">$@</span>"</span> <span class="token operator">&amp;&amp;</span> <span class="token builtin class-name">cd</span> <span class="token string">"<span class="token variable">$_</span>"</span><br><span class="token punctuation">}</span></code></pre>
+<p>The <code>mcd</code> function is a shorthand that combines the <code>mkdir</code> and <code>cd</code> commands. It allows a user to create a directory (recursively, if needed) and move to that directory in a single step.</p>
+<p>By putting the snippet above into a text file with a name that Bash looks for and placing the file in a location on a new system where Bash expects to find such a file, this function becomes available to me in Bash on the new system.</p>
+<p>Dotfile management, like the dotfiles themselves, tend to vary widely between individuals. In this post, I intend to describe the simple method that works for me.</p>
+<h3>Managing my dotfiles</h3>
+<p>My dotfile management strategy has three components:</p>
+<ol>
+<li>A custom shell script I created called <code>dotfiles</code>,</li>
+<li>My actual dotfiles (e.g. <code>.bashrc</code>, <code>.gitconfig</code>, <code>.vimrc</code>, etc.), and</li>
+<li>A plain-text configuration file that describes which dotfiles I want to include.</li>
+</ol>
+<p>I will describe my typical workflow in setting up a brand new environment with my dotfiles. Along the way, I will flag how each of the three components above are used.</p>
+<h4>Git</h4>
+<p>First, I should note that I keep all components above in a publicly-available Git repo. As long as I can access the internet on a new system, I am able to download my dotfiles and the ancillary components. Git helps tremendously in making my dotfiles portable and easy to update across different computers.</p>
+<p>So I start by doing the following:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Download my dotfiles to the home directory</span><br>$ <span class="token function">git</span> clone https://github.com/octos4murai/dotfiles.git ~/dotfiles</code></pre>
+<h4>The dotfiles script</h4>
+<p>I then prepare component 1, a shell scipt called <code>dotfiles</code> — and I run it, passing in some options I will go over in detail in a moment.</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">chmod</span> <span class="token number">700</span> ~/dotfiles/dotfiles<br>$ ~/dotfiles/dotfiles --tag linux --file ~/dotfiles/config</code></pre>
+<p>All the script <code>dotfiles</code> does is to create a bunch of symbolic links from expected locations of dotfiles on the file system to my downloaded dotfiles. For example since Vim checks for the existence of a <code>.vimrc</code> dotfile in the home directory, the script creates a symbolic link named <code>.vimrc</code> in the home directory which targets my actual vim configuration in the project I downloaded from Git earlier.</p>
+<p>Why do I go through the trouble of creating symbolic links to a project directory rather than simply downloading the actual dotfiles to the locations expected by my applications? Doing so has the following benefits:</p>
+<ol>
+<li>I can more easily keep track of the dotfiles I manage because they are all in the same project directory.</li>
+<li>It makes my dotfiles easy to update and move around to different machines. If I need to make a change to one of the files, I make the change and Git tracks the change (as part of the project). I can then push to a remote so I can conveniently pull from another computer with ease later.</li>
+</ol>
+<h4>The configuration file</h4>
+<p>How does the <code>dotfiles</code> shell script know which symbolic links to create? This information is described simplistically in component 3, which is just a text file with lines resembling these:</p>
+<pre class="language-text"><code class="language-text">linux   /home/octos4murai/dotfiles/git/gitconfig    /home/octos4murai/.gitconfig<br>linux   /home/octos4murai/dotfiles/vim/vimrc        /home/octos4murai/.vimrc<br>macos   /Users/octos4murai/dotfiles/bash/bashrc     /Users/octos4murai/.bashrc</code></pre>
+<p>When we ran the <code>dotfiles</code> script above, we passed in two options: (a) tag and (b) file. The tag option is a string that allows us to tell the <code>dotfiles</code> script which lines in the configuration file to include. Meanwhile, the file option is the path to the configuration file.</p>
+<p>In the example above, we ran the script with tag “linux” and file “~/dotfiles/config”. So the script looks for the file “config” in the specified location and reads only the lines tagged as “linux”.</p>
+<p>This allows us to use the same script and configuration file across many computers. By changing the value of the tag option, we are able to specify which lines apply to which environments. So in the sample text file lines above, the “macos” line is ignored while the two “linux” lines are applied.</p>
+<h3>Simple and effective</h3>
+<p>The method I described above is truly simple but for me it gets the job done. There are several key benefits to this approach:</p>
+<ol>
+<li>It has minimal dependencies, requiring only Git and an internet connection.</li>
+<li>Subsequent changes to the dotfiles themselves are easy to track (through Git) and cascade to different machines.</li>
+<li>The solution is easily applied to different machines (even with varying requirements) through the use of the configuration file’s tag option.</li>
+</ol>
+<p>I am currently quite happy with how I manage my dotfiles. I use it not only to pull my dotfiles down to machines I regularly work on — but also on temporary cloud servers and at times even sandboxed environments like containers.</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>
