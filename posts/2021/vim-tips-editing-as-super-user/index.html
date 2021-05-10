@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vim Tips: Editing as Super User | Al Idian</title>
+
+    <meta name="description" content="A personal site about software development">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&amp;family=Merriweather&amp;display=swap">
+
+    <link rel="stylesheet" href="/css/syntax-highlight.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+    <link rel="manifest" href="/favicon/site.webmanifest">
+</head>
+<body>
+    <header>
+        <h3 id="site-title" class="no-margin no-padding"><a href="/">Al Idian</a></h3>
+    </header>
+
+    <main>
+        
+<h1 id="post-title">Vim Tips: Editing as Super User</h1>
+<p id="post-date" class="gray-text">2021.05.09</p>
+
+<p>On machines I manage, I often need to edit system-level configuration files in Vim. This operation requires elevated privileges, which means performing the operation as super user.</p>
+<h3>The obvious way</h3>
+<p>The obvious way to edit files as super user using Vim is to simply invoke it with sudo:</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">sudo</span> <span class="token function">vim</span></code></pre>
+<p>However, this approach has a couple drawbacks:</p>
+<ol>
+<li>It requires foresight. Users may not always know prior to launching Vim whether they will need to edit a file as super user.</li>
+<li>Opening Vim as super user means your user-level Vim configuration (in <code>~/.vimrc</code>) is not read. This means the settings, shortcuts, functions, etc. in your configuration will not be around when you use Vim.</li>
+</ol>
+<h3>My preferred approach</h3>
+<p>A popular solution that works well for me is to open Vim normally as a regular user, make my edits, and then save using the following command:</p>
+<pre class="language-bash"><code class="language-bash">:w <span class="token operator">!</span>sudo <span class="token function">tee</span> %</code></pre>
+<p>Let’s dissect this to understand why it works. Here are the components of that command along with what they do:</p>
+<ol>
+<li>
+<p><code>:w</code></p>
+<p><code>:w</code> is the standard way to save the contents of your current Vim buffer to a file. It is comparable to the keyboard shortcut <code>&lt;Control-s&gt;</code> in many GUI applications. To specify the name of the file in which to save the contents of the current buffer, indicate the file name after the command like this:</p>
+</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">:w sample-file</code></pre>
+<ol start="2">
+<li>
+<p><code>!</code></p>
+<p>The <code>!</code> is used to indicate a shell command in Vim. In the case above, the <code>!</code> tells Vim that what follows needs to be run in a shell. For example, the following command in Vim opens a shell and lists the contents of the current directory:</p>
+</li>
+</ol>
+<pre class="language-bash"><code class="language-bash"><span class="token operator">!</span>ls</code></pre>
+<ol start="3">
+<li>
+<p><code>tee</code></p>
+<p><code>tee</code> is a Unix command that expects a value to be passed in through standard input and does two things with that value — (a) write it to one or more files and (b) print it to standard output. It is named after a type of plumbing pipe which splits water into two directions.</p>
+<p>For instance, this shell command writes “Hello World” to files <code>foo</code> and <code>bar</code> and to standard ouput:</p>
+</li>
+</ol>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">"Hello World"</span> <span class="token operator">|</span> <span class="token function">tee</span> foo bar</code></pre>
+<ol start="4">
+<li>
+<p><code>%</code></p>
+<p>Lastly, <code>%</code> is a special register in Vim that contains the file path (including name) related to the current buffer. For instance if we are currently editing a file named “sample-file”, that would be the value in <code>%</code>.</p>
+</li>
+</ol>
+<p>Putting everything together, the <code>:w</code> command passes the contents of the current Vim buffer to a shell command starting with <code>!</code>. That shell command takes the given value and writes it to the file with the given name (the file corresponding to the current open buffer). The command is able to write it because it is run with sudo privileges.</p>
+<p>Since <code>tee</code> always writes to one or more files plus standard output, the command above always writes to standard output. We can avoid writing to standard output if we want by redirecting standard output to <code>/dev/null</code> but this is not required:</p>
+<pre class="language-bash"><code class="language-bash">:w <span class="token operator">!</span>sudo <span class="token function">tee</span> % <span class="token operator">&amp;></span>/dev/null<br></code></pre>
+<h3>TL/DR</h3>
+<p>Although a little cryptic for beginners, the Vim command discussed in this post allows users to save to a file in Vim as super user. It requires no foresight that <code>sudo</code> is required and allows the user to use their individual Vim settings (through <code>vimrc</code>).</p>
+
+    </main>
+
+    <footer>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site/blob/master/LICENSE">MIT License</a></p>
+        <p class="center-text no-margin no-padding"><a href="https://github.com/octos4murai/personal-site">/octos4murai</a></p>
+    </footer>
+</body>
+</html>
